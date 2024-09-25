@@ -11,7 +11,6 @@ CHECKLIST.md
 *.sln.docstates
 .vscode/
 
-
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -288,3 +287,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+appsettings.json
