@@ -26,7 +26,7 @@
                         </div>
                         <div class="featured__item__text">
                             <h6><a asp-action="Details" asp-controller="Products" asp-route-id="@product.ProductID">@product.Name</a></h6>
-                            <h5>@String.Format("{0:C}", product.Price)</h5>
+                            <h5>@(product.Price.ToString("N0").Replace(",", ".") + " đ")</h5>
                         </div>
                     </div>
                 </div>
