@@ -166,6 +166,15 @@ namespace ArtFold.Controllers
                     EmailConfirmed = true // Xác nhận email
                 };
 
+                var cart = new Cart
+                {
+                    CartID = Guid.NewGuid(),
+                    UserID = user.Id,
+                };
+
+                await _context.Carts.AddAsync(cart);
+                await _context.SaveChangesAsync();
+
                 var result = await _userManager.CreateAsync(user, user.PasswordHash);
 
                 if (result.Succeeded)
@@ -418,9 +427,20 @@ namespace ArtFold.Controllers
                 var resultCreate = await _userManager.CreateAsync(user);
                 if (!resultCreate.Succeeded)
                 {
-                    // Xử lý lỗi khi tạo tài khoản
                     return RedirectToAction(nameof(Login));
                 }
+                await _userManager.AddToRoleAsync(user, "Customer");
+
+                // Tạo Cart cho người dùng mới
+                var cart = new Cart
+                {
+                    UserID = user.Id,
+                    CartID = Guid.NewGuid()
+                };
+
+                // Lưu Cart vào cơ sở dữ liệu
+                _context.Carts.Add(cart);
+                await _context.SaveChangesAsync();
             }
 
             // Đăng nhập người dùng

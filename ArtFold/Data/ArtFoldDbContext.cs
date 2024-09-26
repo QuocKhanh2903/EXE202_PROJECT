@@ -16,6 +16,9 @@ namespace ArtFold.Data
         public DbSet<CartProduct> CartProducts { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CheckOut> CheckOuts { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<CommentImage> CommentsImage { get; set; }
 
         public ArtFoldDbContext(DbContextOptions<ArtFoldDbContext> options) : base(options)
         {
@@ -49,6 +52,32 @@ namespace ArtFold.Data
                 .HasForeignKey(op => op.OrderID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<ProductImage>()
+                .HasOne(pi => pi.Product)
+                .WithMany(p => p.ProductImages)
+                .HasForeignKey(pi => pi.ProductID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Comment relationship
+            builder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Comment>()
+                .HasOne(c => c.Product)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(c => c.ProductID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // CommentImage relationship
+            builder.Entity<CommentImage>()
+                .HasOne(ci => ci.Comment)
+                .WithMany(c => c.CommentImages)
+                .HasForeignKey(ci => ci.CommentID)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             SeedData(builder);
         }
@@ -77,130 +106,33 @@ namespace ArtFold.Data
 
             var users = new List<User>
             {
-                new User
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "Admin",
-                    Email = "bluegameming292003@gmail.com",
-                    EmailConfirmed = true,
-                    FullName = "Trần Minh Quốc Khánh",
-                    PhoneNumber = "0934763210",
-                    CreatedAt = DateTime.Now,
-                    PasswordHash = hasher.HashPassword(null, "admin")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "TaiModel",
-                    Email = "taimodel@gmail.com",
-                    EmailConfirmed = true,
-                    FullName = "Nguyễn Lương Tài",
-                    PhoneNumber = "0123456789",
-                    CreatedAt = DateTime.Now,
-                    PasswordHash = hasher.HashPassword(null, "tai123")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "MinhThu",
-                    Email = "dinhuynhminhthu@gmail.com",
-                    EmailConfirmed = true,
-                    FullName = "Đinh Huỳnh Minh Thư",
-                    PhoneNumber = "0123456789",
-                    CreatedAt = DateTime.Now,
-                    PasswordHash = hasher.HashPassword(null, "thu123")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "NgocHa",
-                    Email = "ngocha@gmail.com",
-                    EmailConfirmed = true,
-                    FullName = "Ngọc Hà",
-                    PhoneNumber = "0123456789",
-                    CreatedAt = DateTime.Now,
-                    PasswordHash = hasher.HashPassword(null, "ha123")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "NgocHan",
-                    Email = "nguyenvungochan@gmail.com",
-                    EmailConfirmed = true,
-                    FullName = "Nguyễn Vũ Ngọc Hân",
-                    PhoneNumber = "0123456789",
-                    CreatedAt = DateTime.Now,
-                    PasswordHash = hasher.HashPassword(null, "han123")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "ThuIT",
-                    Email = "thuIT@gmail.com",
-                    EmailConfirmed = true,
-                    FullName = "Thư AI",
-                    PhoneNumber = "0123456789",
-                    CreatedAt = DateTime.Now,
-                    PasswordHash = hasher.HashPassword(null, "thuit123")
-                }
+                new User { Id = Guid.NewGuid().ToString(), UserName = "Admin", Email = "bluegameming292003@gmail.com", EmailConfirmed = true, FullName = "Trần Minh Quốc Khánh", PhoneNumber = "0934763210", CreatedAt = DateTime.Now, PasswordHash = hasher.HashPassword(null, "admin") },
+                new User { Id = Guid.NewGuid().ToString(), UserName = "TaiModel", Email = "taimodel@gmail.com", EmailConfirmed = true, FullName = "Nguyễn Lương Tài", PhoneNumber = "0123456789", CreatedAt = DateTime.Now, PasswordHash = hasher.HashPassword(null, "tai123") },
+                new User { Id = Guid.NewGuid().ToString(), UserName = "MinhThu", Email = "dinhuynhminhthu@gmail.com", EmailConfirmed = true, FullName = "Đinh Huỳnh Minh Thư", PhoneNumber = "0123456789", CreatedAt = DateTime.Now, PasswordHash = hasher.HashPassword(null, "thu123") },
+                new User { Id = Guid.NewGuid().ToString(), UserName = "NgocHa", Email = "ngocha@gmail.com", EmailConfirmed = true, FullName = "Ngọc Hà", PhoneNumber = "0123456789", CreatedAt = DateTime.Now, PasswordHash = hasher.HashPassword(null, "ha123") },
+                new User { Id = Guid.NewGuid().ToString(), UserName = "NgocHan", Email = "nguyenvungochan@gmail.com", EmailConfirmed = true, FullName = "Nguyễn Vũ Ngọc Hân", PhoneNumber = "0123456789", CreatedAt = DateTime.Now, PasswordHash = hasher.HashPassword(null, "han123") },
+                new User { Id = Guid.NewGuid().ToString(), UserName = "ThuIT", Email = "thuIT@gmail.com", EmailConfirmed = true, FullName = "Thư AI", PhoneNumber = "0123456789", CreatedAt = DateTime.Now, PasswordHash = hasher.HashPassword(null, "thuit123") }
             };
 
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>
-                {
-                    RoleId = adminRoleId,
-                    UserId = users[0].Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = customerRoleId,
-                    UserId = users[1].Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = customerRoleId,
-                    UserId = users[2].Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = customerRoleId,
-                    UserId = users[3].Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = customerRoleId,
-                    UserId = users[4].Id
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = customerRoleId,
-                    UserId = users[5].Id
-                }
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData
+            (
+                new IdentityUserRole<string> { RoleId = adminRoleId, UserId = users[0].Id },
+                new IdentityUserRole<string> { RoleId = customerRoleId, UserId = users[1].Id },
+                new IdentityUserRole<string> { RoleId = customerRoleId, UserId = users[2].Id },
+                new IdentityUserRole<string> { RoleId = customerRoleId, UserId = users[3].Id },
+                new IdentityUserRole<string> { RoleId = customerRoleId, UserId = users[4].Id },
+                new IdentityUserRole<string> { RoleId = customerRoleId, UserId = users[5].Id }  
             );
 
             var categories = new List<Category>
             {
-                new Category
-                {
-                    CategoryID = Guid.NewGuid(),
-                    CategoryName = "Anime"
-                },
-                new Category
-                {
-                    CategoryID = Guid.NewGuid(),
-                    CategoryName = "Vehicle"
-                },
-                new Category
-                {
-                    CategoryID = Guid.NewGuid(),
-                    CategoryName = "Marvel"
-                },
-                new Category
-                {
-                    CategoryID = Guid.NewGuid(),
-                    CategoryName = "Architecture"
-                }
+                new Category { CategoryID = Guid.NewGuid(), CategoryName = "Anime" },
+                new Category { CategoryID = Guid.NewGuid(), CategoryName = "Vehicle" },
+                new Category { CategoryID = Guid.NewGuid(), CategoryName = "Marvel" },
+                new Category { CategoryID = Guid.NewGuid(), CategoryName = "Architecture" }
             };
+
 
             var products = new List<Product>
             {
@@ -209,11 +141,11 @@ namespace ArtFold.Data
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Anime").CategoryID,
                     Name = "Son Goku",
-                    ImgUrl = "https://e7.pngegg.com/pngimages/617/624/png-clipart-dragonball-son-goku-goku-gohan-vegeta-super-saiya-dragon-ball-dragon-ball-z-superhero-hand.png",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/ea93877ccd8d3700b6b9ede4220df541.webp",
                     PrintPaperType = "A4",
-                    Price = 9.99,
+                    Price = 50.000,
                     ProductQuantity = 50,
-                    Description = "This is a Son Goku fold model set",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Goku SSJ HD – Dragon Ball bao gồm:\r\n- 25 tờ kit mô hình.\r\n- Kích thước: Cao: 55,5cm x Rộng: 13,4cm x Sâu: 23,9cm",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,   
                 },
@@ -222,11 +154,11 @@ namespace ArtFold.Data
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Anime").CategoryID,
                     Name = "Monkey D. Luffy",
-                    ImgUrl = "https://wibu.com.vn/wp-content/uploads/2024/04/Monkey-D-Luffy.png",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/e82a586f3d146ea83a3b6303b4668914.webp",
                     PrintPaperType = "A4",
-                    Price = 4.99,
+                    Price = 55.000,
                     ProductQuantity = 100,
-                    Description = "This is a Luffy fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Chibi Monkey D Luffy - One Piece bao gồm:\r\n- 18 tờ kit mô hình.\r\n- Kích thước: Cao: 40cm x Rộng: 23,4cm x Sâu: 21,6cm",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -234,12 +166,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Anime").CategoryID,
-                    Name = "Naruto",
-                    ImgUrl = "https://naruto.vn/wp-content/uploads/2023/05/char_naruto.webp",
+                    Name = "Uzumaki Naruto",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/sg-11134201-22110-igsmlbzefhkvf0.webp",
                     PrintPaperType = "A4",
-                    Price = 19.99,
+                    Price = 42.000,
                     ProductQuantity = 30,
-                    Description = "This is a Naruto fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Game Uzumaki Naruto ver 3 bao gồm:\r\n- 6 tờ kit mô hình.\r\n(Mặc định bản kit sẽ được in bản có line, nếu bạn muốn in bản ko line trong đơn hàng bạn ghi chú là \"in bản ko line\" để shop cho in nhé)\r\n- Kích thước A4: Cao: 17cm x Rộng: 20,1cm x Sâu: 28,3cm.\r\nXuất xứ: Việt Nam",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -247,12 +179,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Anime").CategoryID,
-                    Name = "Pikachu",
-                    ImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFyZHb1xRALpxnlM7JNL6HeKlk0z5-fVv0Yw&s",
+                    Name = "Pikachu Polygon ver 2",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ls9lvceatuah97@resize_w450_nl.webp",
                     PrintPaperType = "A4",
-                    Price = 3.59,
+                    Price = 59.000,
                     ProductQuantity = 30,
-                    Description = "This is a Pikachu fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Game Pokemon Pikachu Polygon ver 2 bao gồm:\r\n- 9 tờ kit mô hình in mực Dầu trên giấy Màu.\r\n- 4 tờ hướng dẫn lắp ráp.\r\n- Kích thước A4: Cao: 33cm x Rộng: 30cm x Sâu: 34cm.\r\nXuất xứ: Việt Nam",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -260,12 +192,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Anime").CategoryID,
-                    Name = "Levi",
-                    ImgUrl = "https://external-preview.redd.it/Yh3aHaFOjKi47VCJLPO2dNw27LojX6y9WL0OMj8HeaA.png?auto=webp&s=dabd03ed4c864fa3600efdd51499b036848b989d",
+                    Name = "Chibi Levi Ackerman",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/a6da3b4677bd9309784051610617a5e7@resize_w450_nl.webp",
                     PrintPaperType = "A4",
-                    Price = 59.99,
+                    Price = 14.000,
                     ProductQuantity = 80,
-                    Description = "This is a Levi AOT fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Chibi Levi Ackerman ver 3 – Attack on Titan bao gồm:\r\n- 6 tờ kit mô hình.\r\n- Kích thước: Cao: 20,3cm x Rộng: 11,1cm x Sâu: 18cm",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -273,12 +205,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Vehicle").CategoryID,
-                    Name = "General Dynamics F-111",
-                    ImgUrl = "https://upload.wikimedia.org/wikipedia/commons/6/6a/An_air-to-air_left_front_view_of_an_F-111_aircraft_during_a_refueling_mission_over_the_North_Sea_DF-ST-89-03609_%28altered%29.jpg",
+                    Name = "Space Shuttle Atlantis",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/4ed6a6e35f435d28286762c02db7f911.webp",
                     PrintPaperType = "A4",
-                    Price = 29.99,
+                    Price = 72.000,
                     ProductQuantity = 10,
-                    Description = "This is a military aircraft General Dynamics fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy phi thuyền không gian vũ trụ tàu con thoi Space Shuttle Atlantis bao gồm:\r\n- 11 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -286,12 +218,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Vehicle").CategoryID,
-                    Name = "SU-22",
-                    ImgUrl = "https://media-cdn-v2.laodong.vn/Storage/newsportal/2018/7/27/621630/Su22m.jpg",
+                    Name = "Lamborghini Sesto Elemento",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/966ca26a8de1b2f34c66449cc74e48bd.webp",
                     PrintPaperType = "A4",
-                    Price = 49.99,
+                    Price = 69.000,
                     ProductQuantity = 10,
-                    Description = "This is a military aircraft SU-22 fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy xe ô tô Lamborghini Sesto Elemento bao gồm:\r\n- 3 tờ kit mô hình.\r\n- Kích thước: Cao: 4,9cm x Rộng: 8,6cm x Sâu: 18,1cm",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -299,12 +231,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Vehicle").CategoryID,
-                    Name = "F/A-18 Hornet",
-                    ImgUrl = "http://genk.mediacdn.vn/2013/fa18_hornet-4305c.jpg",
+                    Name = "Prototype Technology Group BMW",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/9fb112bf0fe8b6b773c0aa7411a2392c.webp",
                     PrintPaperType = "A4",
-                    Price = 49.99,
+                    Price = 79.000,
                     ProductQuantity = 10,
-                    Description = "This is a military aircraft F/A-18 Hornet fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy xe ô tô Prototype Technology Group BMW bao gồm:\r\n- 6 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -312,12 +244,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Vehicle").CategoryID,
-                    Name = "EA-18G Growler",
-                    ImgUrl = "http://genk.mediacdn.vn/2013/ea18g_growler-4305c.jpg",
+                    Name = "Mille Miglia Custom Chopper Bike",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/2fbbe89ee72a717b7f2bed3a84d8b259.webp",
                     PrintPaperType = "A4",
-                    Price = 49.99,
+                    Price = 149.000,
                     ProductQuantity = 10,
-                    Description = "This is a military aircraft EA-18G Growler fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy xe máy Mille Miglia Custom Chopper bao gồm:\r\n- 24 tờ kit mô hình.\r\n- 8 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -325,12 +257,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Vehicle").CategoryID,
-                    Name = "F-35 Lightning II",
-                    ImgUrl = "http://genk.mediacdn.vn/2013/f35_lightning2-4305c.jpg",
+                    Name = "Boeing 777-200 British Airways",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/a09cfa936019a5e6c493acafbd4a13e1.webp",
                     PrintPaperType = "A4",
-                    Price = 29.99,
+                    Price = 58.000,
                     ProductQuantity = 10,
-                    Description = "This is a military aircraft F-35 Lightning II fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy máy bay Boeing 777-200 British Airways bao gồm:\r\n- 8 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -338,12 +270,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Marvel").CategoryID,
-                    Name = "Iron Man",
-                    ImgUrl = "https://static.wikia.nocookie.net/endless-fictional-arena/images/c/c3/Mark_50.png/revision/latest/scale-to-width-down/400?cb=20240123110416&path-prefix=vi",
+                    Name = "Robot Iron Man Mark VII",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/5fc4fc6d877bc7c905b6f92eeb951a94.webp",
                     PrintPaperType = "A4",
-                    Price = 5.99,
+                    Price = 105.000,
                     ProductQuantity = 10,
-                    Description = "This is a Iron Man fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Marvel Avenger Robot Iron Man Mark VII bao gồm:\r\n- 16 tờ kit mô hình.\r\n- 3 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -351,12 +283,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Marvel").CategoryID,
-                    Name = "Thor",
-                    ImgUrl = "https://images-na.ssl-images-amazon.com/images/I/81ec9J+H0XL.jpg",
+                    Name = "Chibi Thor ",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lmua3ev8pza778.webp",
                     PrintPaperType = "A4",
-                    Price = 7.99,
+                    Price = 50.000,
                     ProductQuantity = 10,
-                    Description = "This is a Thor fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Game Chibi Thor mập - Marvel bao gồm:\r\n- 8 tờ kit mô hình in mực Dầu trên giấy Màu.\r\n- 2 tờ hướng dẫn lắp ráp.\r\n- Kích thước : Cao 15,5cm x Rộng 13cm x Sâu 9cm.\r\nXuất xứ: Việt Nam",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -364,12 +296,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Marvel").CategoryID,
-                    Name = "Hulk",
-                    ImgUrl = "https://images-na.ssl-images-amazon.com/images/I/61D3Kg-apuL.jpg",
+                    Name = "Marvel Hulk Wall Hanging",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/8aedf29f64c9de9ac7ec2b3f48182f7b.webp",
                     PrintPaperType = "A4",
-                    Price = 8.99,
+                    Price = 83.000,
                     ProductQuantity = 10,
-                    Description = "This is a Hulk fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Game Marvel Hulk Treo tường ver 3 bao gồm:\r\n– 17 tờ kit mô hình in trên giấy A4 Ford màu định lượng 180gsm (so với giấy photo là 70gsm) + scan code xem hướng dẫn.\r\n- Kích thước: Cao: khoảng 40cm",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -377,12 +309,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Marvel").CategoryID,
-                    Name = "Spider Man",
-                    ImgUrl = "https://imagev3.vietnamplus.vn/w1000/Uploaded/2024/lepz/2015_02_11/spider.jpg.webp",
+                    Name = "Marvel Avengers Iron Spider",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/4b925257b8c606d8ba5549860b146ad1.webp",
                     PrintPaperType = "A4",
-                    Price = 4.99,
+                    Price = 100.000,
                     ProductQuantity = 10,
-                    Description = "This is a Spider-Man fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Marvel Avengers Iron Spider bao gồm:\r\n- 15 tờ kit mô hình.\r\n- Kích thước: Cao: 38cm x Rộng: 30,7cm x Sâu: 34,5cm",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -390,12 +322,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Marvel").CategoryID,
-                    Name = "Doctor Strange",
-                    ImgUrl = "https://static.wikia.nocookie.net/disney/images/d/dc/Doctor_Strange_-_Profile.png/revision/latest?cb=20220804200852",
+                    Name = "Chibi Doctor Strange",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lzad737x2krla7@resize_w450_nl.webp",
                     PrintPaperType = "A4",
-                    Price = 3.99,
+                    Price = 25.000,
                     ProductQuantity = 10,
-                    Description = "This is a Doctor Strange fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy Anime Game Chibi Doctor Strange - Marvel bao gồm:\r\n- 2 tờ kit mô hình + kèm scan code xem video hướng dẫn lắp ráp.\r\n* Xuất xứ: Việt Nam",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -403,12 +335,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Architecture").CategoryID,
-                    Name = "Petronas Twin Tower",
-                    ImgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Petronas_Panorama_II.jpg/1200px-Petronas_Panorama_II.jpg",
+                    Name = "Neuschwanstein Castle - Germany",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/d50b7f9c059c8cb8e7c0654954a08ab1.webp",
                     PrintPaperType = "A4",
-                    Price = 13.99,
+                    Price = 55.000,
                     ProductQuantity = 10,
-                    Description = "This is a Petronas Twin Tower fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy kiến trúc lâu đài Đức Neuschwanstein Castle - Germany bao gồm:\r\n- 8 tờ kit mô hình.\r\n- 2 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -416,12 +348,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Architecture").CategoryID,
-                    Name = "Vatican Cathedral",
-                    ImgUrl = "https://mia.vn/media/uploads/blog-du-lich/vuong-cung-thanh-duong-thanh-phero-1-1705624912.jpeg",
+                    Name = "Tower of London – England",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/5e96e9613e2fd22d255d9d90159d19ce.webp",
                     PrintPaperType = "A4",
-                    Price = 23.99,
+                    Price = 65.000,
                     ProductQuantity = 10,
-                    Description = "This is a Vatican fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy kiến trúc Tháp Luân Đôn Tower of London – England bao gồm:\r\n- 10 tờ kit mô hình.\r\n- 2 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -429,12 +361,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Architecture").CategoryID,
-                    Name = "Paris Tower",
-                    ImgUrl = "https://www.startravel.vn/upload/tintuc/cau-truc-thap-eiffel/tham-quan-Thap-Eiffel.jpg",
+                    Name = "Eiffel Tower",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/a077c0d85e3866a441e4b1e76ab69dbb.webp",
                     PrintPaperType = "A4",
-                    Price = 73.99,
+                    Price = 60.000,
                     ProductQuantity = 10,
-                    Description = "This is a Paris Tower fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy kiến trúc Pháp tháp Eiffel Tower bao gồm:\r\n- 9 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -442,12 +374,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Architecture").CategoryID,
-                    Name = "Landmark 81",
-                    ImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7xLbIO3WCxa93dKqiImlSU0VAXyOKOj5Z_w&s",
+                    Name = "Cambuchia Angkor Wat",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/edb6286c7abf2d62a36a911b5d0983d4.webp",
                     PrintPaperType = "A4",
-                    Price = 13.99,
+                    Price = 156.000,
                     ProductQuantity = 10,
-                    Description = "This is a Landmark81 Tower fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy kiến trúc Cambuchia Angkor Wat bao gồm:\r\n- 24 tờ kit mô hình.\r\n- 3 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -455,12 +387,12 @@ namespace ArtFold.Data
                 {
                     ProductID = Guid.NewGuid(),
                     CategoryID = categories.First(c => c.CategoryName == "Architecture").CategoryID,
-                    Name = "Church",
-                    ImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnm6dJzUo2Byymnsn69_7BcpdEmsyJWFu0nw&s",
+                    Name = "Siena Cathedral - Italy",
+                    ImgUrl = "https://down-vn.img.susercontent.com/file/e7ac1e43b3160334e9ca1fc66da7f34a.webp",
                     PrintPaperType = "A4",
-                    Price = 23.99,
+                    Price = 124.000,
                     ProductQuantity = 10,
-                    Description = "This is a Main Church fold model set.",
+                    Description = "Bộ sản phẩm Mô hình giấy kiến trúc Nhà thờ chính Siena Cathedral - Italy bao gồm:\r\n- 19 tờ kit mô hình.\r\n- 4 tờ hướng dẫn lắp ráp.",
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 }

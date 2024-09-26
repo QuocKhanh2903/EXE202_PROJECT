@@ -14,5 +14,7 @@
             public DateTime? CreatedAt { get; set; }
             public DateTime? UpdatedAt { get; set; }
             public ICollection<CartProduct>? CartProducts { get; set; }
-        }
+            public ICollection<Comment>? Comments { get; set; }
+            public ICollection<ProductImage>? ProductImages { get; set; }
+    }
     }

@@ -20,6 +20,7 @@ namespace ArtFold.Models
         [RegularExpression(@"^0\d{9}$", ErrorMessage = "Phone Number must contain 10 digits, start with 0, and not contain special characters or letters.")]
         public string? PhoneNumber { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public ICollection<Order>? Orders { get; set; } 
+        public ICollection<Order>? Orders { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
     }
 }
