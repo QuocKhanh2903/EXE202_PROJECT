@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ArtFold.Data;
 using ArtFold.Models;
 using Microsoft.AspNetCore.Authorization;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace ArtFold.Areas.Admin.Controllers
 {
@@ -16,11 +18,95 @@ namespace ArtFold.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly ArtFoldDbContext _context;
+        private readonly Cloudinary _cloudinary;
 
-        public ProductsController(ArtFoldDbContext context)
+        public ProductsController(ArtFoldDbContext context, Cloudinary cloudinary)
         {
             _context = context;
+            _cloudinary = cloudinary;
         }
+
+        // POST: Admin/Products/UploadImages
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImages(IFormFile[] slideImageInput, Guid productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                ModelState.AddModelError("", "Product does not exist.");
+                return View(slideImageInput); 
+            }
+
+            if (slideImageInput != null && slideImageInput.Length > 0)
+            {
+                foreach (var imageFile in slideImageInput)
+                {
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        // Upload image to Cloudinary
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(imageFile.FileName, imageFile.OpenReadStream())
+                        };
+
+                        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+                        if (uploadResult.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            // Lấy URL của ảnh từ Cloudinary
+                            var imageUrl = uploadResult.SecureUrl.ToString();
+
+                            // Tạo ProductImage object để lưu vào database
+                            var productImage = new ProductImage
+                            {
+                                ImageUrl = imageUrl,
+                                ProductID = productId,
+                                CreatedAt = DateTime.Now,
+                                UpdateAt = DateTime.Now,
+                            };
+
+                            // Lưu vào database
+                            _context.ProductImages.Add(productImage);
+                        }
+                        else
+                        {
+                            // Xử lý lỗi khi upload không thành công
+                            ModelState.AddModelError("", $"Error uploading image '{imageFile.FileName}' to Cloudinary.");
+                        }
+                    }
+                }
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Images uploaded successfully!";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Please select at least one image file.");
+            return View("Edit"); 
+        }
+
+
+        [HttpPost]
+        public IActionResult DeleteImage(Guid productImageID)
+        {
+            var image = _context.ProductImages.Find(productImageID);
+            if (image != null)
+            {
+                _context.ProductImages.Remove(image);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Image deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Image not found!";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+
 
         // GET: Admin/Products
         public async Task<IActionResult> Index()

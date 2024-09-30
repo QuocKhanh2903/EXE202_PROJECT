@@ -37,6 +37,38 @@ namespace ArtFold.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Carts");
+
+                    b.HasData(
+                        new
+                        {
+                            CartID = new Guid("aa8a7c4c-96b9-47e0-873a-cbf425f34d0c"),
+                            UserID = "a2341b19-59f1-47dc-9cb3-034d7b2bb9f0"
+                        },
+                        new
+                        {
+                            CartID = new Guid("34fc8c48-c213-43e0-a4b0-15f7a4bd23e9"),
+                            UserID = "e69a1917-b30e-4a75-aa2d-d8718bdb60ae"
+                        },
+                        new
+                        {
+                            CartID = new Guid("221ff95c-c073-42a7-9434-caf7c9a54755"),
+                            UserID = "e4d911cf-2871-4bac-b548-8e825d8353d6"
+                        },
+                        new
+                        {
+                            CartID = new Guid("4e74dabe-8ca2-4d81-a868-01ec724b7eb8"),
+                            UserID = "30375519-31fe-4714-b3ba-a51ae1732c86"
+                        },
+                        new
+                        {
+                            CartID = new Guid("782e887a-689e-4a95-b4ad-efe44f98cad3"),
+                            UserID = "cb7dfc70-23fc-4296-a06d-29e9988d84f1"
+                        },
+                        new
+                        {
+                            CartID = new Guid("74498870-f256-4bea-819f-c37c9b772b72"),
+                            UserID = "841c25b5-13fc-4b8c-8092-c8e6420a867d"
+                        });
                 });
 
             modelBuilder.Entity("ArtFold.Models.CartProduct", b =>
@@ -74,22 +106,22 @@ namespace ArtFold.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryID = new Guid("fc7e1651-a9db-4cdd-96be-7f5e89d0d51a"),
+                            CategoryID = new Guid("7db5876e-b1dc-484e-bafc-465b53ec03d7"),
                             CategoryName = "Anime"
                         },
                         new
                         {
-                            CategoryID = new Guid("39eca832-21d4-465b-a87c-2678b3a1f447"),
+                            CategoryID = new Guid("51c982ac-e680-4f54-a3de-b265bb164d9d"),
                             CategoryName = "Vehicle"
                         },
                         new
                         {
-                            CategoryID = new Guid("d429237b-cc96-4a06-bfc2-bb1c29dde115"),
+                            CategoryID = new Guid("f94da136-1534-4561-8177-3c69b1fe708d"),
                             CategoryName = "Marvel"
                         },
                         new
                         {
-                            CategoryID = new Guid("833ca1d8-d6f5-4209-af98-ee0225f4752b"),
+                            CategoryID = new Guid("66aa8768-d7e5-4663-900c-99415f7f0852"),
                             CategoryName = "Architecture"
                         });
                 });
@@ -268,263 +300,263 @@ namespace ArtFold.Migrations
                     b.HasData(
                         new
                         {
-                            ProductID = new Guid("5bcd5ff1-b159-489c-b761-b81618863cd0"),
-                            CategoryID = new Guid("fc7e1651-a9db-4cdd-96be-7f5e89d0d51a"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(863),
+                            ProductID = new Guid("1fd0c45e-070a-4b34-a8d9-ea2c7bed167d"),
+                            CategoryID = new Guid("7db5876e-b1dc-484e-bafc-465b53ec03d7"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6513),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Goku SSJ HD – Dragon Ball bao gồm:\r\n- 25 tờ kit mô hình.\r\n- Kích thước: Cao: 55,5cm x Rộng: 13,4cm x Sâu: 23,9cm",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/ea93877ccd8d3700b6b9ede4220df541.webp",
                             Name = "Son Goku",
                             Price = 50000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 50,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(866)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6518)
                         },
                         new
                         {
-                            ProductID = new Guid("e32048f0-9cdd-4c2a-8c91-08705a541c88"),
-                            CategoryID = new Guid("fc7e1651-a9db-4cdd-96be-7f5e89d0d51a"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(884),
+                            ProductID = new Guid("8678cc48-1bd8-4894-908c-de0526ddfe62"),
+                            CategoryID = new Guid("7db5876e-b1dc-484e-bafc-465b53ec03d7"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6532),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Chibi Monkey D Luffy - One Piece bao gồm:\r\n- 18 tờ kit mô hình.\r\n- Kích thước: Cao: 40cm x Rộng: 23,4cm x Sâu: 21,6cm",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/e82a586f3d146ea83a3b6303b4668914.webp",
                             Name = "Monkey D. Luffy",
                             Price = 55000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 100,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(885)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6533)
                         },
                         new
                         {
-                            ProductID = new Guid("0609fd32-3eb0-4dda-943c-6337bcebd5fb"),
-                            CategoryID = new Guid("fc7e1651-a9db-4cdd-96be-7f5e89d0d51a"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(901),
+                            ProductID = new Guid("72271fd9-d772-4a82-b92e-695e2fe45bce"),
+                            CategoryID = new Guid("7db5876e-b1dc-484e-bafc-465b53ec03d7"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6539),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Game Uzumaki Naruto ver 3 bao gồm:\r\n- 6 tờ kit mô hình.\r\n(Mặc định bản kit sẽ được in bản có line, nếu bạn muốn in bản ko line trong đơn hàng bạn ghi chú là \"in bản ko line\" để shop cho in nhé)\r\n- Kích thước A4: Cao: 17cm x Rộng: 20,1cm x Sâu: 28,3cm.\r\nXuất xứ: Việt Nam",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/sg-11134201-22110-igsmlbzefhkvf0.webp",
                             Name = "Uzumaki Naruto",
                             Price = 42000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 30,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(902)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6539)
                         },
                         new
                         {
-                            ProductID = new Guid("054c85ff-85d0-440c-936d-6b17da77ae3c"),
-                            CategoryID = new Guid("fc7e1651-a9db-4cdd-96be-7f5e89d0d51a"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1041),
+                            ProductID = new Guid("2b9005bf-fd83-40c8-b8e9-6734934a7baf"),
+                            CategoryID = new Guid("7db5876e-b1dc-484e-bafc-465b53ec03d7"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6545),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Game Pokemon Pikachu Polygon ver 2 bao gồm:\r\n- 9 tờ kit mô hình in mực Dầu trên giấy Màu.\r\n- 4 tờ hướng dẫn lắp ráp.\r\n- Kích thước A4: Cao: 33cm x Rộng: 30cm x Sâu: 34cm.\r\nXuất xứ: Việt Nam",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ls9lvceatuah97@resize_w450_nl.webp",
                             Name = "Pikachu Polygon ver 2",
                             Price = 59000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 30,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1042)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6545)
                         },
                         new
                         {
-                            ProductID = new Guid("d1a6c9e8-207b-4c58-bcee-ff2b938db4d1"),
-                            CategoryID = new Guid("fc7e1651-a9db-4cdd-96be-7f5e89d0d51a"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1047),
+                            ProductID = new Guid("85a429c3-2932-4147-866e-9c4edfb1e355"),
+                            CategoryID = new Guid("7db5876e-b1dc-484e-bafc-465b53ec03d7"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6567),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Chibi Levi Ackerman ver 3 – Attack on Titan bao gồm:\r\n- 6 tờ kit mô hình.\r\n- Kích thước: Cao: 20,3cm x Rộng: 11,1cm x Sâu: 18cm",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/a6da3b4677bd9309784051610617a5e7@resize_w450_nl.webp",
                             Name = "Chibi Levi Ackerman",
                             Price = 14000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 80,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1048)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6567)
                         },
                         new
                         {
-                            ProductID = new Guid("0e19a79b-a316-495a-b867-9a1185192a79"),
-                            CategoryID = new Guid("39eca832-21d4-465b-a87c-2678b3a1f447"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1056),
+                            ProductID = new Guid("e9e6040f-b81e-4516-9df9-ae65745b203a"),
+                            CategoryID = new Guid("51c982ac-e680-4f54-a3de-b265bb164d9d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6573),
                             Description = "Bộ sản phẩm Mô hình giấy phi thuyền không gian vũ trụ tàu con thoi Space Shuttle Atlantis bao gồm:\r\n- 11 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/4ed6a6e35f435d28286762c02db7f911.webp",
                             Name = "Space Shuttle Atlantis",
                             Price = 72000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1057)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6574)
                         },
                         new
                         {
-                            ProductID = new Guid("e31cd274-6e8b-4dee-ae26-d950231be745"),
-                            CategoryID = new Guid("39eca832-21d4-465b-a87c-2678b3a1f447"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1063),
+                            ProductID = new Guid("6e4dcf25-771a-48d9-9e6e-ab6612f9ec0f"),
+                            CategoryID = new Guid("51c982ac-e680-4f54-a3de-b265bb164d9d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6581),
                             Description = "Bộ sản phẩm Mô hình giấy xe ô tô Lamborghini Sesto Elemento bao gồm:\r\n- 3 tờ kit mô hình.\r\n- Kích thước: Cao: 4,9cm x Rộng: 8,6cm x Sâu: 18,1cm",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/966ca26a8de1b2f34c66449cc74e48bd.webp",
                             Name = "Lamborghini Sesto Elemento",
                             Price = 69000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1063)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6582)
                         },
                         new
                         {
-                            ProductID = new Guid("7e4e9930-0826-42cf-84fe-8fed33c07380"),
-                            CategoryID = new Guid("39eca832-21d4-465b-a87c-2678b3a1f447"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1069),
+                            ProductID = new Guid("91539440-ba60-42aa-b54e-183a75ba1cc6"),
+                            CategoryID = new Guid("51c982ac-e680-4f54-a3de-b265bb164d9d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6595),
                             Description = "Bộ sản phẩm Mô hình giấy xe ô tô Prototype Technology Group BMW bao gồm:\r\n- 6 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/9fb112bf0fe8b6b773c0aa7411a2392c.webp",
                             Name = "Prototype Technology Group BMW",
                             Price = 79000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1069)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6596)
                         },
                         new
                         {
-                            ProductID = new Guid("63d71614-0b4e-476b-92e4-c5acbb736891"),
-                            CategoryID = new Guid("39eca832-21d4-465b-a87c-2678b3a1f447"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1074),
+                            ProductID = new Guid("839450d6-ee63-48a0-8717-c8459a87cbe1"),
+                            CategoryID = new Guid("51c982ac-e680-4f54-a3de-b265bb164d9d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6604),
                             Description = "Bộ sản phẩm Mô hình giấy xe máy Mille Miglia Custom Chopper bao gồm:\r\n- 24 tờ kit mô hình.\r\n- 8 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/2fbbe89ee72a717b7f2bed3a84d8b259.webp",
                             Name = "Mille Miglia Custom Chopper Bike",
                             Price = 149000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1075)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6605)
                         },
                         new
                         {
-                            ProductID = new Guid("d443ed0e-93cd-4a96-b683-92f052e044e5"),
-                            CategoryID = new Guid("39eca832-21d4-465b-a87c-2678b3a1f447"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1092),
+                            ProductID = new Guid("5da5b129-6f54-4422-bb02-d65fba0a0c8b"),
+                            CategoryID = new Guid("51c982ac-e680-4f54-a3de-b265bb164d9d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6627),
                             Description = "Bộ sản phẩm Mô hình giấy máy bay Boeing 777-200 British Airways bao gồm:\r\n- 8 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/a09cfa936019a5e6c493acafbd4a13e1.webp",
                             Name = "Boeing 777-200 British Airways",
                             Price = 58000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1093)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6628)
                         },
                         new
                         {
-                            ProductID = new Guid("da4c58d8-966a-4db6-9ebb-2b9c5a76f1a9"),
-                            CategoryID = new Guid("d429237b-cc96-4a06-bfc2-bb1c29dde115"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1105),
+                            ProductID = new Guid("3ab9dc02-ff80-43a3-baf2-9f110f8291c7"),
+                            CategoryID = new Guid("f94da136-1534-4561-8177-3c69b1fe708d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6643),
                             Description = "Bộ sản phẩm Mô hình giấy Marvel Avenger Robot Iron Man Mark VII bao gồm:\r\n- 16 tờ kit mô hình.\r\n- 3 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/5fc4fc6d877bc7c905b6f92eeb951a94.webp",
                             Name = "Robot Iron Man Mark VII",
                             Price = 105000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1106)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6644)
                         },
                         new
                         {
-                            ProductID = new Guid("2f9dbde4-4c83-4966-b572-3a99a2479c92"),
-                            CategoryID = new Guid("d429237b-cc96-4a06-bfc2-bb1c29dde115"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1113),
+                            ProductID = new Guid("c09d5680-29de-4174-b39d-c37e722441f4"),
+                            CategoryID = new Guid("f94da136-1534-4561-8177-3c69b1fe708d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6650),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Game Chibi Thor mập - Marvel bao gồm:\r\n- 8 tờ kit mô hình in mực Dầu trên giấy Màu.\r\n- 2 tờ hướng dẫn lắp ráp.\r\n- Kích thước : Cao 15,5cm x Rộng 13cm x Sâu 9cm.\r\nXuất xứ: Việt Nam",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lmua3ev8pza778.webp",
                             Name = "Chibi Thor ",
                             Price = 50000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1114)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6651)
                         },
                         new
                         {
-                            ProductID = new Guid("6253f14f-94ce-49a7-86aa-bbf3068c4805"),
-                            CategoryID = new Guid("d429237b-cc96-4a06-bfc2-bb1c29dde115"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1120),
+                            ProductID = new Guid("c3f0924c-b335-4a43-8a75-3f5d5989888d"),
+                            CategoryID = new Guid("f94da136-1534-4561-8177-3c69b1fe708d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6659),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Game Marvel Hulk Treo tường ver 3 bao gồm:\r\n– 17 tờ kit mô hình in trên giấy A4 Ford màu định lượng 180gsm (so với giấy photo là 70gsm) + scan code xem hướng dẫn.\r\n- Kích thước: Cao: khoảng 40cm",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/8aedf29f64c9de9ac7ec2b3f48182f7b.webp",
                             Name = "Marvel Hulk Wall Hanging",
                             Price = 83000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1121)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6660)
                         },
                         new
                         {
-                            ProductID = new Guid("3b3baa5b-782e-42b8-8804-40ad37451310"),
-                            CategoryID = new Guid("d429237b-cc96-4a06-bfc2-bb1c29dde115"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1132),
+                            ProductID = new Guid("0f6e34af-c9b5-43a4-9c6a-119c33453563"),
+                            CategoryID = new Guid("f94da136-1534-4561-8177-3c69b1fe708d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6678),
                             Description = "Bộ sản phẩm Mô hình giấy Marvel Avengers Iron Spider bao gồm:\r\n- 15 tờ kit mô hình.\r\n- Kích thước: Cao: 38cm x Rộng: 30,7cm x Sâu: 34,5cm",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/4b925257b8c606d8ba5549860b146ad1.webp",
                             Name = "Marvel Avengers Iron Spider",
                             Price = 100000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1144)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6699)
                         },
                         new
                         {
-                            ProductID = new Guid("30376a83-1042-4bfb-b3be-569e2b09b728"),
-                            CategoryID = new Guid("d429237b-cc96-4a06-bfc2-bb1c29dde115"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1156),
+                            ProductID = new Guid("9826195e-1ed2-40a8-b3b6-3accd385883f"),
+                            CategoryID = new Guid("f94da136-1534-4561-8177-3c69b1fe708d"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6713),
                             Description = "Bộ sản phẩm Mô hình giấy Anime Game Chibi Doctor Strange - Marvel bao gồm:\r\n- 2 tờ kit mô hình + kèm scan code xem video hướng dẫn lắp ráp.\r\n* Xuất xứ: Việt Nam",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lzad737x2krla7@resize_w450_nl.webp",
                             Name = "Chibi Doctor Strange",
                             Price = 25000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1157)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6714)
                         },
                         new
                         {
-                            ProductID = new Guid("7a51e04a-e6f4-4856-98ad-600dfe6f6ad6"),
-                            CategoryID = new Guid("833ca1d8-d6f5-4209-af98-ee0225f4752b"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1164),
+                            ProductID = new Guid("3f6d8d9a-7e31-4938-867d-734d9956df4b"),
+                            CategoryID = new Guid("66aa8768-d7e5-4663-900c-99415f7f0852"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6721),
                             Description = "Bộ sản phẩm Mô hình giấy kiến trúc lâu đài Đức Neuschwanstein Castle - Germany bao gồm:\r\n- 8 tờ kit mô hình.\r\n- 2 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/d50b7f9c059c8cb8e7c0654954a08ab1.webp",
                             Name = "Neuschwanstein Castle - Germany",
                             Price = 55000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1165)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6722)
                         },
                         new
                         {
-                            ProductID = new Guid("2851db28-15cf-47ef-b6d2-25f2d27850a0"),
-                            CategoryID = new Guid("833ca1d8-d6f5-4209-af98-ee0225f4752b"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1174),
+                            ProductID = new Guid("ae566254-1b7e-4f65-95ee-74b552d70fca"),
+                            CategoryID = new Guid("66aa8768-d7e5-4663-900c-99415f7f0852"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6729),
                             Description = "Bộ sản phẩm Mô hình giấy kiến trúc Tháp Luân Đôn Tower of London – England bao gồm:\r\n- 10 tờ kit mô hình.\r\n- 2 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/5e96e9613e2fd22d255d9d90159d19ce.webp",
                             Name = "Tower of London – England",
                             Price = 65000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1174)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6730)
                         },
                         new
                         {
-                            ProductID = new Guid("acd28c38-eda4-481b-ad84-bbd071349c09"),
-                            CategoryID = new Guid("833ca1d8-d6f5-4209-af98-ee0225f4752b"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1182),
+                            ProductID = new Guid("d9bf655a-9eff-47dc-bf07-657ac8c2fa4c"),
+                            CategoryID = new Guid("66aa8768-d7e5-4663-900c-99415f7f0852"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6738),
                             Description = "Bộ sản phẩm Mô hình giấy kiến trúc Pháp tháp Eiffel Tower bao gồm:\r\n- 9 tờ kit mô hình.\r\n- 1 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/a077c0d85e3866a441e4b1e76ab69dbb.webp",
                             Name = "Eiffel Tower",
                             Price = 60000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1183)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6738)
                         },
                         new
                         {
-                            ProductID = new Guid("062c24b1-b57b-45b7-89fd-51b0e06345ad"),
-                            CategoryID = new Guid("833ca1d8-d6f5-4209-af98-ee0225f4752b"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1191),
+                            ProductID = new Guid("8ce4bec0-b2b2-4a56-a51a-11b729b54b9e"),
+                            CategoryID = new Guid("66aa8768-d7e5-4663-900c-99415f7f0852"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6775),
                             Description = "Bộ sản phẩm Mô hình giấy kiến trúc Cambuchia Angkor Wat bao gồm:\r\n- 24 tờ kit mô hình.\r\n- 3 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/edb6286c7abf2d62a36a911b5d0983d4.webp",
                             Name = "Cambuchia Angkor Wat",
                             Price = 156000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1192)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6776)
                         },
                         new
                         {
-                            ProductID = new Guid("966563f1-9a83-4de8-9263-02a9a39758ff"),
-                            CategoryID = new Guid("833ca1d8-d6f5-4209-af98-ee0225f4752b"),
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1197),
+                            ProductID = new Guid("e9185e9b-f478-4c50-ad3d-094d0805f07e"),
+                            CategoryID = new Guid("66aa8768-d7e5-4663-900c-99415f7f0852"),
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6782),
                             Description = "Bộ sản phẩm Mô hình giấy kiến trúc Nhà thờ chính Siena Cathedral - Italy bao gồm:\r\n- 19 tờ kit mô hình.\r\n- 4 tờ hướng dẫn lắp ráp.",
                             ImgUrl = "https://down-vn.img.susercontent.com/file/e7ac1e43b3160334e9ca1fc66da7f34a.webp",
                             Name = "Siena Cathedral - Italy",
                             Price = 124000.0,
                             PrintPaperType = "A4",
                             ProductQuantity = 10,
-                            UpdatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 333, DateTimeKind.Local).AddTicks(1198)
+                            UpdatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 909, DateTimeKind.Local).AddTicks(6782)
                         });
                 });
 
@@ -628,103 +660,103 @@ namespace ArtFold.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e97182cc-ec3c-429c-beb6-5b6534edab28",
+                            Id = "a2341b19-59f1-47dc-9cb3-034d7b2bb9f0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "051337cf-dd3d-4890-9667-5815cf330121",
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 38, 960, DateTimeKind.Local).AddTicks(6280),
+                            ConcurrencyStamp = "cdd95d27-a949-40c4-a42e-d92950bdf2cc",
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 500, DateTimeKind.Local).AddTicks(2535),
                             Email = "bluegameming292003@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Trần Minh Quốc Khánh",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEHt7JYXIZ7imnIivpQRmCwLr8D2pm+nXOjDr3wqXpW0MIwfQbcigi5g7wM2osNA2UA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKxNf1+eHLqCEzNb23bbwg+24gKK3arG3aRRXGrqNNJ5BqjmoydI0W7v416XEDpe4w==",
                             PhoneNumber = "0934763210",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "38447e3f-f0b8-4d52-a2db-cdbb5bb02276",
+                            SecurityStamp = "be33c783-a598-4bb9-8561-92ebc6d798df",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         },
                         new
                         {
-                            Id = "fe7995af-a50f-4fb9-bb7e-440b4490b570",
+                            Id = "e69a1917-b30e-4a75-aa2d-d8718bdb60ae",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f0626891-4c61-4e75-9f5e-122a33aa9858",
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 20, DateTimeKind.Local).AddTicks(9332),
+                            ConcurrencyStamp = "0f0025d0-5d7c-4808-bc22-dd15e4623ca7",
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 563, DateTimeKind.Local).AddTicks(2486),
                             Email = "taimodel@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Nguyễn Lương Tài",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEDCi/t/hW6OfRz67ztZytFMV5/bLNOlt4Ts63pX+JrL78+XeUwoYYek9nFsLEJTgtw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENw6X6hjX+e/78Hr+2P42PO1IBNMlZnaw9mpIs4D6Bqu3BORss8sBXTUxMW0kZj8AA==",
                             PhoneNumber = "0123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e26ec9b0-6d42-46ec-9b8e-f5d18fb25d15",
+                            SecurityStamp = "83aeba9c-ebf7-4018-be4a-4244da86db5b",
                             TwoFactorEnabled = false,
                             UserName = "TaiModel"
                         },
                         new
                         {
-                            Id = "3a0fa642-476e-40ae-8add-87d502a4e4d5",
+                            Id = "e4d911cf-2871-4bac-b548-8e825d8353d6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "97a7c332-729b-4935-8432-0c7fb2154d15",
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 80, DateTimeKind.Local).AddTicks(6132),
+                            ConcurrencyStamp = "e8980e4c-9792-405d-a135-f71c6149ceac",
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 641, DateTimeKind.Local).AddTicks(221),
                             Email = "dinhuynhminhthu@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Đinh Huỳnh Minh Thư",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAENPvikVyqbH5HRkkO0revG++T5hZ8FTJyGKS7BDy2RDuLIxmAT0ItfdYitF0o45RQA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENEmaVCFak+qsTLeKAOJhHmxFNUfM6Kgcv8VSJcKs4Q6+QRuHQssW4Wakb/YzUtL4g==",
                             PhoneNumber = "0123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3faed014-2d19-4735-9453-21ded65f8072",
+                            SecurityStamp = "c4f786bb-5dfb-4bc2-91f4-c30835725b71",
                             TwoFactorEnabled = false,
                             UserName = "MinhThu"
                         },
                         new
                         {
-                            Id = "354a25bf-3714-4e40-8025-00d9dd12db65",
+                            Id = "30375519-31fe-4714-b3ba-a51ae1732c86",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ab99e713-a7fd-49bf-9f89-76fa9d86529a",
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 140, DateTimeKind.Local).AddTicks(4630),
+                            ConcurrencyStamp = "b4965d14-0995-4098-9ca1-29ba1f7c1a29",
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 708, DateTimeKind.Local).AddTicks(1764),
                             Email = "ngocha@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Ngọc Hà",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEOthCq8W215dkkkkRIih37QN11JMQS6sG7yOp7HwnAKRZLIFieZH5uBJoHvDcdaJoA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIoI7yx2vLQ4vpV7GfYLuXqY75Q5jKmR89/Ct+W90z2yJk93FRLGJ9MTwcLqx2C19g==",
                             PhoneNumber = "0123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1d11413f-7c2c-48b9-9981-416a15d57695",
+                            SecurityStamp = "4317b928-b1ed-4105-b15b-4663c0416cbe",
                             TwoFactorEnabled = false,
                             UserName = "NgocHa"
                         },
                         new
                         {
-                            Id = "a591095b-50cc-4860-b0b2-e758d6165500",
+                            Id = "cb7dfc70-23fc-4296-a06d-29e9988d84f1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0e8aa60-6d3e-4a36-b723-9537024ebada",
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 214, DateTimeKind.Local).AddTicks(2749),
+                            ConcurrencyStamp = "809b5d2f-e946-4757-bd0e-20e3a28c6b59",
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 783, DateTimeKind.Local).AddTicks(9921),
                             Email = "nguyenvungochan@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Nguyễn Vũ Ngọc Hân",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEGE7qaJwYHuilasL0kKLn6db2oHoVFzurbUTceW599PfDXN3wveyapKQdd6UN53gfA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED9y3MYBBFLqaU1LkKHrScgeUOKyXUgW72ufZgg9Pyt7/XalaoBQaEHu/bL65P40bA==",
                             PhoneNumber = "0123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2ed35d08-c754-4ab4-a928-5a6a034a1624",
+                            SecurityStamp = "57acb4f3-114c-4274-8616-d3864143333d",
                             TwoFactorEnabled = false,
                             UserName = "NgocHan"
                         },
                         new
                         {
-                            Id = "c779ffa8-c675-42c6-a067-f13c70579722",
+                            Id = "841c25b5-13fc-4b8c-8092-c8e6420a867d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "36a1db4f-4e00-4602-9954-c5467b038a0c",
-                            CreatedAt = new DateTime(2024, 9, 26, 15, 2, 39, 273, DateTimeKind.Local).AddTicks(2741),
+                            ConcurrencyStamp = "b0163405-ed1e-49f4-af65-39e8f2ea568d",
+                            CreatedAt = new DateTime(2024, 9, 28, 11, 37, 50, 848, DateTimeKind.Local).AddTicks(1786),
                             Email = "thuIT@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Thư AI",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEAkjB11gBKQmztiptrvEi9E1cv33ecGJ2JDPK5ivnVOj/m2KHPEVLTyeKawfgPLyfg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAIuboVyoSKzDIbC7qwcm8nBb6bNTpMRxtG/q/Nlahs20abM1tRW5tfmw9F1gC8AcA==",
                             PhoneNumber = "0123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ff77649f-c947-4435-bb2f-dcb79fdc555e",
+                            SecurityStamp = "7cc46424-5dd2-4a68-9bf4-04d5771a8d19",
                             TwoFactorEnabled = false,
                             UserName = "ThuIT"
                         });
@@ -759,13 +791,13 @@ namespace ArtFold.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fc8c6e5b-f4e8-472b-b6ba-09a5dceb3c93",
+                            Id = "3fa65a9a-59cc-4a27-83f9-dc477498c2b8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7daea6a4-5d35-4cb2-907c-29eb1793e201",
+                            Id = "2e09c8fc-d898-4f54-8860-e7cd016f61d7",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -860,33 +892,33 @@ namespace ArtFold.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "e97182cc-ec3c-429c-beb6-5b6534edab28",
-                            RoleId = "fc8c6e5b-f4e8-472b-b6ba-09a5dceb3c93"
+                            UserId = "a2341b19-59f1-47dc-9cb3-034d7b2bb9f0",
+                            RoleId = "3fa65a9a-59cc-4a27-83f9-dc477498c2b8"
                         },
                         new
                         {
-                            UserId = "fe7995af-a50f-4fb9-bb7e-440b4490b570",
-                            RoleId = "7daea6a4-5d35-4cb2-907c-29eb1793e201"
+                            UserId = "e69a1917-b30e-4a75-aa2d-d8718bdb60ae",
+                            RoleId = "2e09c8fc-d898-4f54-8860-e7cd016f61d7"
                         },
                         new
                         {
-                            UserId = "3a0fa642-476e-40ae-8add-87d502a4e4d5",
-                            RoleId = "7daea6a4-5d35-4cb2-907c-29eb1793e201"
+                            UserId = "e4d911cf-2871-4bac-b548-8e825d8353d6",
+                            RoleId = "2e09c8fc-d898-4f54-8860-e7cd016f61d7"
                         },
                         new
                         {
-                            UserId = "354a25bf-3714-4e40-8025-00d9dd12db65",
-                            RoleId = "7daea6a4-5d35-4cb2-907c-29eb1793e201"
+                            UserId = "30375519-31fe-4714-b3ba-a51ae1732c86",
+                            RoleId = "2e09c8fc-d898-4f54-8860-e7cd016f61d7"
                         },
                         new
                         {
-                            UserId = "a591095b-50cc-4860-b0b2-e758d6165500",
-                            RoleId = "7daea6a4-5d35-4cb2-907c-29eb1793e201"
+                            UserId = "cb7dfc70-23fc-4296-a06d-29e9988d84f1",
+                            RoleId = "2e09c8fc-d898-4f54-8860-e7cd016f61d7"
                         },
                         new
                         {
-                            UserId = "c779ffa8-c675-42c6-a067-f13c70579722",
-                            RoleId = "7daea6a4-5d35-4cb2-907c-29eb1793e201"
+                            UserId = "841c25b5-13fc-4b8c-8092-c8e6420a867d",
+                            RoleId = "2e09c8fc-d898-4f54-8860-e7cd016f61d7"
                         });
                 });
 

@@ -1,6 +1,8 @@
 using ArtFold.Data;
 using ArtFold.Models;
 using ArtFold.Services;
+using CloudinaryDotNet;
+using dotenv.net;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
@@ -47,6 +49,13 @@ namespace ArtFold
             builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
             builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("MailSetting"));
+
+
+            DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
+            Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
+            cloudinary.Api.Secure = true;
+            builder.Services.AddSingleton(cloudinary);
+
 
             builder.Services.AddAuthentication(options =>
             {

@@ -49,6 +49,17 @@ namespace ArtFold.Controllers
             return View(product);
         }
 
+        public async Task<IActionResult> GetRelatedProduct()
+        {
+            var relatedProducts = await _context.Products
+                .Include (p => p.Category)
+                .OrderBy(p => Guid.NewGuid())
+                .Take(4)
+                .ToListAsync();
+            return PartialView("_relatedProducts", relatedProducts);
+        }
+
+
         // GET: Products/Create
         public IActionResult Create()
         {

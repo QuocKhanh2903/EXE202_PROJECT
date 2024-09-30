@@ -115,6 +115,17 @@ namespace ArtFold.Data
             };
 
 
+            var carts = new List<Cart>
+            {
+                new Cart { CartID = Guid.NewGuid(), UserID = users[0].Id },
+                new Cart { CartID = Guid.NewGuid(), UserID = users[1].Id },
+                new Cart { CartID = Guid.NewGuid(), UserID = users[2].Id },
+                new Cart { CartID = Guid.NewGuid(), UserID = users[3].Id },
+                new Cart { CartID = Guid.NewGuid(), UserID = users[4].Id },
+                new Cart { CartID = Guid.NewGuid(), UserID = users[5].Id }
+            };
+
+
             modelBuilder.Entity<IdentityUserRole<string>>().HasData
             (
                 new IdentityUserRole<string> { RoleId = adminRoleId, UserId = users[0].Id },
@@ -401,7 +412,7 @@ namespace ArtFold.Data
             modelBuilder.Entity<User>().HasData(users);
             modelBuilder.Entity<Product>().HasData(products);
             modelBuilder.Entity<Category>().HasData(categories);
-
+            modelBuilder.Entity<Cart>().HasData(carts);
         }
     }
 }
