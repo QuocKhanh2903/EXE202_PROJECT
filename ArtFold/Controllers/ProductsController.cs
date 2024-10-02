@@ -40,6 +40,7 @@ namespace ArtFold.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.ProductImages)
                 .FirstOrDefaultAsync(m => m.ProductID == id);
             if (product == null)
             {
@@ -58,6 +59,8 @@ namespace ArtFold.Controllers
                 .ToListAsync();
             return PartialView("_relatedProducts", relatedProducts);
         }
+
+       
 
 
         // GET: Products/Create

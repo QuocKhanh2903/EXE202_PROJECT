@@ -48,7 +48,7 @@
                     </div>
 
 
-                    <form asp-action="Login" method="post">
+                    <form asp-action="Login" asp-controller="Authentication" method="post">
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="Email">Email</label>
@@ -87,7 +87,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center text-center text-lg-start mt-4 pt-2">
-                            <a asp-action="LoginWithGoogle"  asp-controller="Authentication" class="btn btn-block btn-outline-primary"> <i class="fab fa-google-f"></i> Login via Google</a>
+                            <a asp-action="LoginWithGoogle"  asp-controller="LoginGG" class="btn btn-block btn-outline-primary"> <i class="fab fa-google-f"></i> Login via Google</a>
                         </div>
                     </form>
 

@@ -10,6 +10,17 @@
         .breadcrumb-title{
             position: absolute;
         }
+
+        .product__details__pic__slider img {
+            width: 100px;
+            height: auto;
+            cursor: pointer;
+            object-fit: cover;
+        }
+
+        .product__details__pic__slider .active img {
+            border: 2px solid #ff6f61;
+        }
     </style>
 </head>
 
@@ -43,16 +54,13 @@
                             <img class="product__details__pic__item--large"
                                  src="@Model.ImgUrl" alt="">
                         </div>
-                        @* <div class="product__details__pic__slider owl-carousel">
-                        <img data-imgbigurl="img/product/details/product-details-2.jpg"
-                        src="img/product/details/thumb-1.jpg" alt="">
-                        <img data-imgbigurl="img/product/details/product-details-3.jpg"
-                        src="img/product/details/thumb-2.jpg" alt="">
-                        <img data-imgbigurl="img/product/details/product-details-5.jpg"
-                        src="img/product/details/thumb-3.jpg" alt="">
-                        <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                        src="img/product/details/thumb-4.jpg" alt="">
-                        </div> *@
+
+                        <div class="product__details__pic__slider owl-carousel">
+                            @foreach (var image in Model.ProductImages)
+                            {
+                                <img data-imgbigurl="@image.ImageUrl" src="@image.ImageUrl" alt="@Model.Name">
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -181,6 +189,25 @@
             },
             error: function () {
                 alert('Có lỗi xảy ra khi tải sản phẩm.');
+            }
+        });
+
+        $(".product__details__pic__slider").owlCarousel({
+            items: 4,
+            loop: true,
+            margin: 10,
+            nav: true,
+            dots: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 4
+                }
             }
         });
     

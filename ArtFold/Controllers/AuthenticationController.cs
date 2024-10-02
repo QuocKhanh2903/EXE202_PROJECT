@@ -204,7 +204,6 @@ namespace ArtFold.Controllers
         {
 
             await _signInManager.SignOutAsync();
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
 
@@ -390,63 +389,5 @@ namespace ArtFold.Controllers
 
             return View(model);
         }
-
-        [HttpGet]
-        public IActionResult LoginWithGoogle()
-        {
-            var redirectUrl = Url.Action("GoogleResponse", "Authentication");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(GoogleDefaults.AuthenticationScheme, redirectUrl);
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GoogleResponse(string returnUrl = null)
-        {
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            if (result?.Principal == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            // Lấy thông tin người dùng từ Google
-            var email = result.Principal.FindFirstValue(ClaimTypes.Email);
-            var fullName = result.Principal.FindFirstValue(ClaimTypes.Name);
-            var phone = result.Principal.FindFirstValue(ClaimTypes.MobilePhone);
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user == null)
-            {
-                // Nếu người dùng chưa tồn tại, có thể tạo tài khoản mới
-                user = new User
-                {
-                    UserName = email,
-                    Email = email,
-                    FullName = fullName,
-                    CreatedAt = DateTime.Now
-                };
-                var resultCreate = await _userManager.CreateAsync(user);
-                if (!resultCreate.Succeeded)
-                {
-                    return RedirectToAction(nameof(Login));
-                }
-                await _userManager.AddToRoleAsync(user, "Customer");
-
-                // Tạo Cart cho người dùng mới
-                var cart = new Cart
-                {
-                    UserID = user.Id,
-                    CartID = Guid.NewGuid()
-                };
-
-                // Lưu Cart vào cơ sở dữ liệu
-                _context.Carts.Add(cart);
-                await _context.SaveChangesAsync();
-            }
-
-            // Đăng nhập người dùng
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            return RedirectToAction("Index", "Home");
-        }
-
     }
 }
