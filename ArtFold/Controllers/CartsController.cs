@@ -1,20 +1,168 @@
 ﻿using ArtFold.Data;
+using ArtFold.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace ArtFold.Controllers
 {
     public class CartsController : Controller
     {
         public readonly ArtFoldDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public CartsController(ArtFoldDbContext context)
+        public CartsController(ArtFoldDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
+            var cart = await _context.Carts
+                                .Include(c => c.CartProducts)
+                                .ThenInclude(cp => cp.Product)
+                                .FirstOrDefaultAsync(c => c.UserID == user.Id);
+
+            return View(cart);
+        }
+
+        public async Task<IActionResult> AddToCart(Guid productId, int quantity)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Please login to add items to the cart." });
+            }
+
+            var cart = _context.Carts.FirstOrDefault(c => c.UserID == user.Id);
+            if (cart == null)
+            {
+                return Json(new { success = false, message = "Cart not found." });
+            }
+
+            var cartProduct = _context.CartProducts.FirstOrDefault(cp => cp.CartID == cart.CartID && cp.ProductID == productId);
+            if (cartProduct != null)
+            {
+                cartProduct.ProductCartQuantity += quantity;
+            }
+            else
+            {
+                cartProduct = new CartProduct
+                {
+                    CartID = cart.CartID,
+                    ProductID = productId,
+                    ProductCartQuantity = quantity
+                };
+                _context.CartProducts.Add(cartProduct);
+            }
+
+            await _context.SaveChangesAsync();
+            return Json(new { success = true});
+        }
+
+        public async Task<IActionResult> UpdateProductCartQuantity(Guid productId, int newQuantity)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Please login to update the cart." });
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.CartProducts)
+                .ThenInclude(cp => cp.Product)  
+                .FirstOrDefaultAsync(c => c.UserID == user.Id);
+
+            if (cart == null)
+            {
+                return Json(new { success = false, message = "Cart not found." });
+            }
+
+            var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductID == productId);
+            if (cartProduct == null)
+            {
+                return Json(new { success = false, message = "Product not found in the cart." });
+            }
+
+            // Update the product quantity
+            cartProduct.ProductCartQuantity = newQuantity;
+
+            // Save changes to database
+            await _context.SaveChangesAsync();
+
+            // Calculate the new total price for the product
+            var productTotal = cartProduct.Product.Price * cartProduct.ProductCartQuantity;
+
+            return Json(new { success = true, productTotal = productTotal.ToString("N0").Replace(",", ".") + " đ" });
+        }
+
+        public async Task<IActionResult> DeleteProductCart(Guid productId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Please login to update the cart." });
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.CartProducts)
+                .ThenInclude(cp => cp.Product)
+                .FirstOrDefaultAsync(c => c.UserID == user.Id);
+
+            if (cart == null)
+            {
+                return Json(new { success = false, message = "Cart not found." });
+            }
+
+            var cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductID == productId);
+
+            if (cartProduct == null)
+            {
+                return Json(new { success = false, message = "Product not found in the cart." });
+            }
+
+            _context.CartProducts.Remove(cartProduct);
+
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCartItemCount()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Json(new { count = 0 });
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.CartProducts)
+                .FirstOrDefaultAsync(c => c.UserID == user.Id);
+
+            
+
+            if (cart == null)
+            {
+                return Json(new { cartItemCount = 0 });
+            }
+
+            var cartItemCount = cart.CartProducts.Count;
+
+            return Json(new { count = cartItemCount });
         }
     }
+
 }
+

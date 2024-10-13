@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/lib/ogani-master/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="~/lib/ogani-master/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="~/lib/ogani-master/css/elegant-icons.css" type="text/css">
@@ -132,7 +133,7 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                                    <li><a asp-controller="Carts" asp-action="Index"><i class="fa fa-shopping-bag"></i> <span id="cartItemCount">0</span></a></li>
                                 }
 
                             </ul>
@@ -220,6 +221,34 @@
     <script src="~/lib/ogani-master/js/owl.carousel.min.js"></script>
     <script src="~/lib/ogani-master/js/jquery.slicknav.js"></script>
     <script src="~/lib/ogani-master/js/main.js"></script>
+
+
+    
+        <script>
+            $(document).ready(function () {
+                
+                function loadCartItemCount() {
+                    $.ajax({
+                        url: '@Url.Action("GetCartItemCount", "Carts")',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#cartItemCount').text(data.count);
+                        },
+                        error: function () {
+                            console.log("Unable to fetch cart item count.");
+                        }
+                    });
+                }
+
+                // Gọi hàm khi trang load xong
+                loadCartItemCount();
+            });
+        </script>
+    
+
+
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -35,9 +35,6 @@ namespace ArtFold.Controllers
                 return NotFound();
             }
 
-            
-
-
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
