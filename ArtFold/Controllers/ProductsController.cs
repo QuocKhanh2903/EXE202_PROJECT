@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ArtFold.Data;
 using ArtFold.Models;
 using Microsoft.AspNetCore.Identity;
+using PagedList;
+
 
 namespace ArtFold.Controllers
 {
@@ -21,10 +23,18 @@ namespace ArtFold.Controllers
         }
         
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var artFoldDbContext = _context.Products.Include(p => p.Category);
-            return View(await artFoldDbContext.ToListAsync());
+            if (page == null) page = 1;
+
+            var allProducts = await _context.Products
+                                    .OrderByDescending(p => p.CreatedAt)
+                                    .ToListAsync();
+
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+
+            return View(allProducts.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Products/Details/5
@@ -57,7 +67,26 @@ namespace ArtFold.Controllers
             return PartialView("_relatedProducts", relatedProducts);
         }
 
-       
+        public async Task<IActionResult> GetLatestProduct()
+        {
+            var latestProduct = await _context.Products
+                                    .OrderByDescending(p => p.CreatedAt)
+                                    .Take(3)
+                                    .ToListAsync();
+            return PartialView("_lastestProduct", latestProduct);
+        }
+
+        public async Task<IActionResult> SalesOffProducts()
+        {
+            var saleOffProduct = await _context.Products
+                                    .Include(p => p.Category)
+                                    .OrderBy(p => Guid.NewGuid())
+                                    .Take(6)
+                                    .ToListAsync();
+            return PartialView("_salesOff", saleOffProduct);
+        }
+
+
 
 
         // GET: Products/Create
