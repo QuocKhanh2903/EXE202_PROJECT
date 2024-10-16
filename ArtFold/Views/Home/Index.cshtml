@@ -1,4 +1,4 @@
-﻿
+﻿    
 <head>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="~/lib/ogani-master/css/style.css" type="text/css">
 </head>
 <body>
+
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
@@ -114,11 +119,15 @@
 
 <script>
     $(document).ready(function () {
+        bindAddToCartButtons();
+        loadCartItemCount();
+
         $.ajax({
             url: '@Url.Action("GetFeaturedProduct", "Home")',
             type: 'GET',
             success: function (data) {
                 $('#featuredProduct').html(data);
+                bindAddToCartButtons();
             },
             error: function () {
                 alert('Có lỗi xảy ra khi tải sản phẩm.');
@@ -135,6 +144,52 @@
                 alert('Có lỗi xảy ra khi tải sản phẩm.');
             }
         });
+
+        function loadCartItemCount() {
+            $.ajax({
+                url: '@Url.Action("GetCartItemCount", "Carts")',
+                type: 'GET',
+                success: function (data) {
+                    console.log('fetch success');
+                    $('#cartItemCount').text(data.count);
+                },
+                error: function () {
+                    console.log("Unable to fetch cart item count.");
+                }
+            });
+        };
+
+        function bindAddToCartButtons() {
+            $('.addCartBtn').off('click').on('click', function () {
+                var quantity = 1;
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "Carts")', // Đường dẫn tới action
+                    type: 'POST',
+                    data: {
+                        productId: productId,
+                        quantity: quantity
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            loadCartItemCount();
+                            var successPopup = $('#successPopup');
+                            successPopup.addClass('show');
+
+                            setTimeout(function () {
+                                successPopup.removeClass('show');
+                            }, 2000);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while adding the product to the cart.');
+                    }
+                });
+
+            });
+        }
 
 
     });

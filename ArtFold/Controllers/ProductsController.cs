@@ -21,21 +21,65 @@ namespace ArtFold.Controllers
         {
             _context = context;
         }
-        
+
         // GET: Products
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
+        {
+            var artFoldDbContext = _context.Products.Include(p => p.Category);
+            return View(await artFoldDbContext.ToListAsync());
+        }
+
+        // GET: ListProducts
+        public async Task<IActionResult> ShowProductsWithPagination(int? page)
         {
             if (page == null) page = 1;
 
             var allProducts = await _context.Products
+                                    .Include(p => p.Category)
                                     .OrderByDescending(p => p.CreatedAt)
                                     .ToListAsync();
 
             int pageSize = 9;
             int pageNumber = (page ?? 1);
 
-            return View(allProducts.ToPagedList(pageNumber, pageSize));
+
+            return PartialView("_listProducts", allProducts.ToPagedList(pageNumber, pageSize));
+            
         }
+
+        public async Task<IActionResult> FilterByCategory(string? category, int? page)
+        {
+            if (page == null) page = 1;
+
+            var product = await _context.Products
+                                   .Where(p => p.Category.CategoryName == category)
+                                   .OrderByDescending(p => p.CreatedAt)
+                                   .ToListAsync();
+
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+
+            return PartialView("_ListProducts", product.ToPagedList(pageNumber, pageSize));
+
+        }
+
+
+        public async Task<IActionResult> FilterByPrice(int minPrice, int maxPrice, int? page)
+        {
+            if (page == null) page = 1;
+
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .Where(p => p.Price >= minPrice && p.Price <= maxPrice) 
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+
+            return PartialView("_listProducts", products.ToPagedList(pageNumber, pageSize));
+        }
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(Guid? id)

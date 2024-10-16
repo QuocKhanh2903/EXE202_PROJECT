@@ -135,7 +135,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Yes, delete</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmDeleteBtn">Yes, delete</button>
                 </div>
             </div>
         </div>
@@ -236,6 +236,19 @@
             $('#cartTotal').text(cartTotal.toLocaleString('vi-VN') + " đ");
         };
 
+        function loadCartItemCount() {
+            $.ajax({
+                url: '@Url.Action("GetCartItemCount", "Carts")',
+                type: 'GET',
+                success: function (data) {
+                    $('#cartItemCount').text(data.count);
+                },
+                error: function () {
+                    console.log("Unable to fetch cart item count.");
+                }
+            });
+        }
+
         var deleteProductId;
 
         $('.delete-btn').on('click', function () {
@@ -250,7 +263,8 @@
                 data: { productId: deleteProductId },
                 success: function (response) {
                     if (response.success) {
-                        $('#DeleteModal').remove();
+                        loadCartItemCount();
+                        $('#DeleteModal').modal('hide');
                         $('.modal-backdrop').remove();
                         $('tr[data-product-id="' + deleteProductId + '"]').remove();
                         calculateCartTotal();

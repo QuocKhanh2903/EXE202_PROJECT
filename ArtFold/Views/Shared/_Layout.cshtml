@@ -40,10 +40,45 @@
             justify-content: end;
         }
 
+        .addCartBtn {
+            border: none;
+        }
+
+        .popup {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            width: 250px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 999999;
+            transition: right 0.5s ease-in-out;
+        }
+
+
+        .popup.show {
+            right: 20px;
+        }
+
+        #successPopup {
+            background-color: #4CAF50;
+        }
+
+        .header__menu .active > a {
+            color: #4CAF50;
+        }
+
     </style>
 </head>
 <body>
 
+    <div id="successPopup" class="popup">
+        <span id="popupMessage">Add To Cart Successfully</span>
+    </div>
 
     <div class="container-fluid">
         <!-- Header Section Begin -->
@@ -113,8 +148,12 @@
                     <div class="col-lg-6">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./index.html">Home</a></li>
-                                <li><a asp-controller="Products" asp-action="Index">Shop</a></li>
+                                <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                                    <a href="@Url.Action("Index", "Home")">Home</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Products" ? "active" : "")">
+                                    <a asp-controller="Products" asp-action="Index">Shop</a>
+                                </li>
                                 <li>
                                     <a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
@@ -226,30 +265,24 @@
 
 
     
-        <script>
-            $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
                 
-                function loadCartItemCount() {
-                    $.ajax({
-                        url: '@Url.Action("GetCartItemCount", "Carts")',
-                        type: 'GET',
-                        success: function (data) {
-                            $('#cartItemCount').text(data.count);
-                        },
-                        error: function () {
-                            console.log("Unable to fetch cart item count.");
-                        }
-                    });
-                }
-
-                // Gọi hàm khi trang load xong
-                loadCartItemCount();
-            });
-        </script>
-    
-
-
-
+            function loadCartItemCount() {
+                $.ajax({
+                    url: '@Url.Action("GetCartItemCount", "Carts")',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#cartItemCount').text(data.count);
+                    },
+                    error: function () {
+                        console.log("Unable to fetch cart item count.");
+                    }
+                });
+            }
+            loadCartItemCount();
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

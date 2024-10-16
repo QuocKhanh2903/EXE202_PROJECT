@@ -1,27 +1,6 @@
-﻿@model PagedList.IPagedList<ArtFold.Models.Product>
-@using PagedList.Mvc;
+﻿@model IEnumerable<ArtFold.Models.Product>
 
 <head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ArtFold.styles.css" asp-append-version="true" />
-
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="~/lib/ogani-master/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="~/lib/ogani-master/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="~/lib/ogani-master/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="~/lib/ogani-master/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="~/lib/ogani-master/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="~/lib/ogani-master/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="~/lib/ogani-master/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="~/lib/ogani-master/css/style.css" type="text/css">
-
-
-
-
-
     <style>
         .breadcrumb-section {
             position: relative;
@@ -56,32 +35,17 @@
             display: none;
         }
 
-        #addCartBtn{
-            border: none;
+        .category-link{
+            cursor: pointer;
+        }
+        
+        .category-link.selected {
+            font-weight: bold;
+            color: #28a745;
         }
 
-        .popup {
-            position: fixed;
-            top: 20px;
-            right: -300px; /* Ban đầu đặt ngoài màn hình */
-            width: 250px;
-            padding: 15px;
-            background-color: #4CAF50; /* Màu đỏ cho thông báo lỗi */
-            color: white;
-            font-size: 16px;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            transition: right 0.5s ease-in-out; /* Thêm transition cho hiệu ứng trượt */
-        }
-
-            /* Khi pop-up hiển thị */
-            .popup.show {
-                right: 20px; /* Hiện tại vị trí cách mép phải màn hình 20px */
-            }
-
-        #successPopup {
-            background-color: #4CAF50; /* Màu xanh lá cây cho thông báo thành công */
+        #maxamount{
+            max-width: 100px;
         }
     </style>
 </head>
@@ -91,7 +55,6 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section">
@@ -127,17 +90,17 @@
                             <div class="sidebar__item">
                                 <h4>Department</h4>
                                 <ul>
-                                    <li><a href="#">Anime</a></li>
-                                    <li><a href="#">Vehicle</a></li>
-                                    <li><a href="#">Marvel</a></li>
-                                    <li><a href="#">Architecture</a></li>
+                                    <li><a class="category-link" data-category="Anime">Anime</a></li>
+                                    <li><a class="category-link" data-category="Vehicle">Vehicle</a></li>
+                                    <li><a class="category-link" data-category="Marvel">Marvel</a></li>
+                                    <li><a class="category-link" data-category="Architecture">Architecture</a></li>
                                 </ul>
                             </div>
                             <div class="sidebar__item">
                                 <h4>Price</h4>
                                 <div class="price-range-wrap">
                                     <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                         data-min="10" data-max="540">
+                                         data-min="0" data-max="500000" step="10000">
                                         <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
                                         <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                         <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
@@ -178,88 +141,9 @@
                             </div>
                         </div>
 
-                        <div class="row">
-
-                            @foreach (var product in Model)
-                            {
-                                <div asp-route-id="@product.ProductID" asp-controller="Products" asp-action="Details" class="col-lg-4 col-md-6 col-sm-6">
-                                    <div class="product__item">
-
-                                        <div class="product__item__pic">
-                                            <img src="@product.ImgUrl" />
-                                            <ul class="product__item__pic__hover">
-                                                <li><button type="button" id="addCartBtn" class="btn btn-link" data-product-id="@product.ProductID"><a><i class="fa fa-shopping-cart"></i></a></button></li>
-                                            </ul>
-
-                                            <div id="successPopup" class="popup">
-                                                <span id="popupMessage">Add To Cart Successfully</span>
-                                            </div>
-                                        </div>
-                                        <div class="product__item__text">
-                                            <h6><a asp-route-id="@product.ProductID" asp-controller="Products" asp-action="Details">@product.Name</a></h6>
-                                            <h5>@(product.Price.ToString("N0").Replace(",", ".") + " đ")</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-
-                            <div class="product__pagination">
-                                <nav>
-                                    <ul class="pagination">
-                                        @if (Model.HasPreviousPage)
-                                        {
-                                            <li class="page-item">
-                                                <a class="page-link" asp-action="Index" asp-route-page="@(Model.PageNumber - 1)" style="display: flex;
-                                                                                                                                justify-content: center;
-                                                                                                                                   align-items: center;">
-                                                    <i class="fa fa-long-arrow-left"></i>
-                                                </a>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="page-item disabled">
-                                                <a class="page-link" style="display: flex;
-                                                                                                                                justify-content: center;
-                                                                                                                                align-items: center;"><i class="fa fa-long-arrow-left"></i></a>
-                                            </li>
-                                        }
-
-                                        @for (var i = 1; i <= Model.PageCount; i++)
-                                        {
-                                            <li class="@(i == Model.PageNumber ? "page-item active" : "page-item")">
-                                                <a class="page-link" asp-action="Index" asp-route-page="@i" style="display: flex;
-                                                                                                                                justify-content: center;
-                                                                                                                                   align-items: center;">
-                                                    @i
-                                                </a>
-                                            </li>
-                                        }
-
-                                        @if (Model.HasNextPage)
-                                        {
-                                            <li class="page-item">
-                                                <a class="page-link" asp-action="Index" asp-route-page="@(Model.PageNumber + 1)" style="display: flex;
-                                                                                                                                justify-content: center;
-                                                                                                                                align-items: center;">
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </a>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="page-item disabled">
-                                                <a class="page-link" style="display: flex;
-                                                                                                                                justify-content: center;
-                                                                                                                                align-items: center;">
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </a>
-                                            </li>
-
-                                        }
-                                    </ul>
-                                </nav>
-                            </div>
+                        <div id="listProduct" class="row">
+                            
+                            
 
                         </div>
 
@@ -273,108 +157,225 @@
     </section>
     <!-- Product Section End -->
 
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/lib/ogani-master/js/jquery-3.3.1.min.js"></script>
-    <script src="~/lib/ogani-master/js/bootstrap.min.js"></script>
-    <script src="~/lib/ogani-master/js/jquery.nice-select.min.js"></script>
-    <script src="~/lib/ogani-master/js/jquery-ui.min.js"></script>
-    <script src="~/lib/ogani-master/js/jquery.slicknav.js"></script>
-    <script src="~/lib/ogani-master/js/mixitup.min.js"></script>
-    <script src="~/lib/ogani-master/js/owl.carousel.min.js"></script>
-    <script src="~/lib/ogani-master/js/main.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
 
-</body>
+        $(document).ready(function () {
+            bindAddToCartButtons();
+            loadCartItemCount();
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+            var minPrice = 0;
+            var maxPrice = 500000;
 
+            $("#minamount").val(minPrice);
+            $("#maxamount").val(maxPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ");
 
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '@Url.Action("GetLatestProduct", "Products")',
-            type: 'GET',
-            success: function (data) {
-                $('#lastestProduct').html(data);
-
-                $('.latest-product__slider').owlCarousel({
-                    loop: true,
-                    margin: 10,
-                    nav: true,
-                    items: 1,
-                    autoplay: true,
-                    autoplayTimeout: 3000,
-                    autoplayHoverPause: true,
-                });
-            },
-            error: function () {
-                alert('Có lỗi xảy ra khi tải sản phẩm.');
-            }
-        });
-
-        $.ajax({
-            url: '@Url.Action("SalesOffProducts", "Products")',
-            type: 'GET',
-            success: function (data) {
-                $('#salesOff').html(data);
-
-                $('.product__discount__slider ').owlCarousel({
-                    loop: true,
-                    margin: 10,
-                    nav: true,
-                    items: 3,
-                    autoplay: true,                
-                    autoplayTimeout: 3000,          
-                    autoplayHoverPause: true,
-                    onInitialized: function () {
-                        $('.owl-nav').addClass('disabled'); 
-                    }
-                });
-            },
-            error: function () {
-                alert('Có lỗi xảy ra khi tải sản phẩm.');
-            }
-        });
-
-        $('#addCartBtn').on('click', function () {
-            var quantity = 1;
-            var productId = $(this).data('product-id');
-            $.ajax({
-                url: '@Url.Action("AddToCart", "Carts")', // Đường dẫn tới action
-                type: 'POST',
-                data: {
-                    productId: productId,
-                    quantity: quantity
-                },
-                success: function (response) {
-                    if (response.success) {
-                        var successPopup = $('#successPopup');
-                        successPopup.addClass('show');
-
-                        // Ẩn popup sau 2 giây
-                        setTimeout(function () {
-                            successPopup.removeClass('show');
-                        }, 2000);
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function () {
-                    alert('An error occurred while adding the product to the cart.');
+            $(".price-range").slider({
+                range: true,
+                min: minPrice,
+                max: maxPrice,
+                values: [minPrice, maxPrice],
+                slide: function (event, ui) {
+                    $("#minamount").val(ui.values[0]);
+                    $("#maxamount").val(ui.values[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ");
+                    filterProductsByPrice(ui.values[0], ui.values[1]);
                 }
             });
-            
+
+            function filterProductsByPrice(minPrice, maxPrice) {
+                $.ajax({
+                    url: '@Url.Action("FilterByPrice", "Products")',
+                    type: 'GET',
+                    data: { minPrice: minPrice, maxPrice: maxPrice },
+                    success: function (data) {
+                        $('#listProduct').html(data);
+                        bindAddToCartButtons();
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi lọc sản phẩm theo giá.');
+                    }
+                });
+            }
+
+
+
+
+            $(document).on('click', '.pagination-link', function (e) {
+                e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
+                var page = $(this).data('page');
+                console.log('Page clicked:', page); // Kiểm tra log
+                loadProducts(page);
+            });
+
+            function loadProducts(page) {
+                console.log('Loading products for page:', page);
+                $.ajax({
+                    url: '@Url.Action("ShowProductsWithPagination", "Products")',
+                    type: 'GET',
+                    data: { page: page },
+                    success: function (data) {
+                        $('#listProduct').html(data);
+                        bindAddToCartButtons();
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi tải sản phẩm.');
+                    }
+                });
+            }
+
+            $(document).on('click', '.category-link', function (e) {
+                e.preventDefault(); // Ngăn chặn hành vi mặc định
+                var category = $(this).data('category');
+
+                // Gọi hàm filterProducts để lọc theo danh mục
+                filterProducts(category);
+            });
+
+            function filterProducts(category) {
+                const selectedCategory = $('.category-link.selected');
+
+                if (selectedCategory.length && selectedCategory.data('category') === category) {
+                    // Nếu danh mục đã được chọn, bỏ lọc
+                    $.ajax({
+                        url: '@Url.Action("ShowProductsWithPagination", "Products")',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#listProduct').html(data);
+                            bindAddToCartButtons();
+                        },
+                        error: function () {
+                            alert('Có lỗi xảy ra khi bỏ lọc sản phẩm.');
+                        }
+                    });
+
+                    // Bỏ lớp CSS đã chọn
+                    selectedCategory.removeClass('selected');
+                } else {
+                    // Nếu chưa được chọn, áp dụng bộ lọc
+                    $.ajax({
+                        url: '@Url.Action("FilterByCategory", "Products")',
+                        type: 'GET',
+                        data: { category: category },
+                        success: function (data) {
+                            $('#listProduct').html(data);
+                            bindAddToCartButtons();
+                        },
+                        error: function () {
+                            alert('Có lỗi xảy ra khi lọc sản phẩm.');
+                        }
+                    });
+
+                    // Thêm lớp CSS đã chọn
+                    $('.category-link').removeClass('selected'); // Bỏ chọn tất cả
+                    $('[data-category="' + category + '"]').addClass('selected'); // Chọn danh mục hiện tại
+                }
+            }
+
+            $.ajax({
+                url: '@Url.Action("ShowProductsWithPagination", "Products")',
+                type: 'GET',
+                success: function (data) {
+                    $('#listProduct').html(data);
+                    bindAddToCartButtons();
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi tải sản phẩm.');
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("GetLatestProduct", "Products")',
+                type: 'GET',
+                success: function (data) {
+                    $('#lastestProduct').html(data);
+
+                    $('.latest-product__slider').owlCarousel({
+                        loop: true,
+                        margin: 10,
+                        nav: true,
+                        items: 1,
+                        autoplay: true,
+                        autoplayTimeout: 3000,
+                        autoplayHoverPause: true,
+                    });
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi tải sản phẩm.');
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("SalesOffProducts", "Products")',
+                type: 'GET',
+                success: function (data) {
+                    $('#salesOff').html(data);
+                    bindAddToCartButtons();
+                    $('.product__discount__slider ').owlCarousel({
+                        loop: true,
+                        margin: 10,
+                        nav: true,
+                        items: 3,
+                        autoplay: true,
+                        autoplayTimeout: 3000,
+                        autoplayHoverPause: true,
+                        onInitialized: function () {
+                            $('.owl-nav').addClass('disabled');
+                        }
+                    });
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi tải sản phẩm.');
+                }
+            });
+
+            function loadCartItemCount() {
+                $.ajax({
+                    url: '@Url.Action("GetCartItemCount", "Carts")',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log('fetch success');
+                        $('#cartItemCount').text(data.count);
+                    },
+                    error: function () {
+                        console.log("Unable to fetch cart item count.");
+                    }
+                });
+            };
+
+            function bindAddToCartButtons() {
+                $('.addCartBtn').off('click').on('click', function () {
+                    var quantity = 1;
+                    var productId = $(this).data('product-id');
+                    $.ajax({
+                        url: '@Url.Action("AddToCart", "Carts")', // Đường dẫn tới action
+                        type: 'POST',
+                        data: {
+                            productId: productId,
+                            quantity: quantity
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                loadCartItemCount();
+                                var successPopup = $('#successPopup');
+                                successPopup.addClass('show');
+
+                                setTimeout(function () {
+                                    successPopup.removeClass('show');
+                                }, 2000);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while adding the product to the cart.');
+                        }
+                    });
+
+                });
+            }
         });
+    </script>
+</body>
 
 
 
-    });
-</script>

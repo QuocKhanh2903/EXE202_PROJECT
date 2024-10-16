@@ -25,26 +25,26 @@
         .popup {
             position: fixed;
             top: 20px;
-            right: -300px; /* Ban đầu đặt ngoài màn hình */
+            right: -300px; 
             width: 250px;
             padding: 15px;
-            background-color: #4CAF50; /* Màu đỏ cho thông báo lỗi */
+            background-color: #4CAF50;
             color: white;
             font-size: 16px;
             border-radius: 4px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            transition: right 0.5s ease-in-out; /* Thêm transition cho hiệu ứng trượt */
+            transition: right 0.5s ease-in-out;
         }
 
             /* Khi pop-up hiển thị */
             .popup.show {
-                right: 20px; /* Hiện tại vị trí cách mép phải màn hình 20px */
+                right: 20px; 
             }
 
         /* Style cho pop-up lỗi */
         #popup {
-            background-color: #f44336; /* Màu đỏ cho thông báo lỗi */
+            background-color: #f44336; 
         }
 
         /* Style cho pop-up thành công */
@@ -279,6 +279,21 @@
             }
         });
 
+        function loadCartItemCount() {
+            $.ajax({
+                url: '@Url.Action("GetCartItemCount", "Carts")',
+                type: 'GET',
+                success: function (data) {
+                    $('#cartItemCount').text(data.count);
+                },
+                error: function () {
+                    console.log("Unable to fetch cart item count.");
+                }
+            });
+        }
+
+        
+
         $('#addCartBtn').on('click', function () {
             var quantity = parseInt($('#productQuantity').val());
             var productId = $('input[name="productId"]').val();
@@ -301,6 +316,7 @@
                     },
                     success: function (response) {
                         if (response.success) {
+                            loadCartItemCount();
                             var successPopup = $('#successPopup');
                             successPopup.addClass('show');
 
