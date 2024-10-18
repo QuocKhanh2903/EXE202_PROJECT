@@ -16,7 +16,6 @@ namespace ArtFold.Controllers
     public class ProductsController : Controller
     {
         private readonly ArtFoldDbContext _context;
-        private readonly UserManager<User> _userManager;
         public ProductsController(ArtFoldDbContext context)
         {
             _context = context;

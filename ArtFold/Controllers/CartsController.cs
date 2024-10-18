@@ -67,6 +67,27 @@ namespace ArtFold.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            //var cartSession = _context.Carts
+            //                .Include(c => c.CartProducts)
+            //                .ThenInclude(cp => cp.Product)
+            //                .Where(c => c.UserID == user.Id)
+            //                .Select(c => new
+            //                {
+            //                    cartID = c.CartID,
+            //                    CartProducts = c.CartProducts.Select(cp => new
+            //                    {
+            //                        cp.ProductID,
+            //                        cp.Product.Name,
+            //                        cp.ProductCartQuantity,
+            //                        cp.Product.Price
+            //                    }).ToList()
+            //                })
+            //                .FirstOrDefault();
+
+            //HttpContext.Session.SetString("Cart", Newtonsoft.Json.JsonConvert.SerializeObject(cartSession));
+
+
             return Json(new { success = true});
         }
 
@@ -94,13 +115,12 @@ namespace ArtFold.Controllers
                 return Json(new { success = false, message = "Product not found in the cart." });
             }
 
-            // Update the product quantity
+
             cartProduct.ProductCartQuantity = newQuantity;
 
-            // Save changes to database
+
             await _context.SaveChangesAsync();
 
-            // Calculate the new total price for the product
             var productTotal = cartProduct.Product.Price * cartProduct.ProductCartQuantity;
 
             return Json(new { success = true, productTotal = productTotal.ToString("N0").Replace(",", ".") + " đ" });

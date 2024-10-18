@@ -10,6 +10,18 @@
         .breadcrumb-title {
             position: absolute;
         }
+
+        .animation-btn{
+            background-color: #7fad39;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .animation-btn:hover{
+            background-color: #fff;
+            color: black;
+        }
+
     </style>
 </head>
 
@@ -89,8 +101,8 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="shoping__cart__btns">
-                        <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    <div class="shoping__cart__btns continue">
+                        <a asp-action="Index" asp-controller="Products" class="primary-btn animation-btn">CONTINUE SHOPPING</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -110,7 +122,7 @@
                         <ul>
                             <li>Total <span id="cartTotal"></span></li>
                         </ul>
-                        <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a asp-action="Index" asp-controller="Orders" class="primary-btn animation-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>
