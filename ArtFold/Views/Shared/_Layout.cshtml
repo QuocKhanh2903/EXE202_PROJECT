@@ -153,7 +153,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <nav class="header__menu">
+                        <nav class="header__menu d-flex justify-content-center">
                             <ul>
                                 <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
                                     <a href="@Url.Action("Index", "Home")">Home</a>
@@ -162,7 +162,7 @@
                                     <a asp-controller="Products" asp-action="Index">Shop</a>
                                 </li>
                                 <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "CheckOuts" ? "active" : "")">
-                                    <a asp-controller="Orders" asp-action="Index">Check Out</a>
+                                    <a asp-controller="CheckOut" asp-action="Index">Check Out</a>
                                 </li>
                             </ul>
                         </nav>

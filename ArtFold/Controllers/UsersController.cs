@@ -39,7 +39,7 @@ namespace ArtFold.Controllers
 
                 if (result.Succeeded)
                 {
-                    return Json(new { success = true, userName = user.FullName, userPhone = user.PhoneNumber });
+                    return Json(new { success = true, userName = user.FullName, userPhone = user.PhoneNumber, houseAddress = user.HouseAddress, ward = user.Ward, district = user.District, city = user.City });
                 }
             }
 

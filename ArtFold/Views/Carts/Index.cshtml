@@ -77,7 +77,7 @@
 
                                         <td class="shoping__cart__item">
                                             <img src="@item.Product.ImgUrl" alt="" style="width: 30%">
-                                            <h5>@item.Product.Name</h5>
+                                            <h5><a asp-action="Details" asp-controller="Products" asp-route-id="@item.ProductID" style="color: black">@item.Product.Name</a></h5>
                                         </td>
                                         <td class="shoping__cart__price">
                                             <span>@(item.Product.Price.ToString("N0").Replace(",", ".") + " đ")</span>
@@ -85,7 +85,9 @@
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
                                                 <div class="pro-qty">
+                                                    <div class="dec qtybtn">-</div>
                                                     <input type="text" id="productQuantity" value="@item.ProductCartQuantity" min="1" max="@item.Product.ProductQuantity">
+                                                    <div class="inc qtybtn">+</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -122,7 +124,7 @@
                         <ul>
                             <li>Total <span id="cartTotal"></span></li>
                         </ul>
-                        <a asp-action="Index" asp-controller="Orders" class="primary-btn animation-btn">PROCEED TO CHECKOUT</a>
+                        <a id="checkOut" class="primary-btn animation-btn" style="cursor: pointer">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>
@@ -163,6 +165,31 @@
 <script>
     $(document).ready(function () {
         calculateCartTotal();
+
+        $('#checkOut').click(function () {
+            $.ajax({
+                url: '@Url.Action("ProceedToCheckout", "Carts")', // Đường dẫn tới action mới
+                type: 'POST',
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.redirectUrl; 
+                    } else {
+                        alert(response.message); // Hiển thị alert nếu giỏ hàng trống
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // In ra lỗi trong console
+                    console.log("Error details: ", jqXHR.responseText);
+                    console.log("Status: ", textStatus);
+                    console.log("Error: ", errorThrown);
+
+                    // Hiển thị alert lỗi chi tiết
+                    alert("An error occurred: " + jqXHR.responseText + "\nStatus: " + textStatus + "\nError: " + errorThrown);
+                }
+            });
+        });
+
+
 
         $('.pro-qty input').on('input', function () {
             var maxQuantity = $(this).attr('max');
@@ -228,8 +255,9 @@
                         alert(response.message);
                     }
                 },
-                error: function () {
+                error: function (err) {
                     alert('Error updating the cart.');
+                    console.log(err.error);
                 }
             });
         };

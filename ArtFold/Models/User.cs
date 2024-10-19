@@ -24,7 +24,7 @@ namespace ArtFold.Models
         public string? Ward { get; set; }
         public string? HouseAddress {  get; set; }
         public DateTime? CreatedAt { get; set; }
-        public ICollection<Order>? Orders { get; set; }
+        public ICollection<CheckOut>? CheckOuts { get; set; }
         public ICollection<Comment>? Comments { get; set; }
     }
 }

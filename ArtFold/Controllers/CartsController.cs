@@ -19,6 +19,25 @@ namespace ArtFold.Controllers
             _userManager = userManager;
         }
 
+        public async Task<IActionResult> ProceedToCheckout()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            // Tìm Cart của người dùng
+            var userCart = await _context.Carts
+                .Include(c => c.CartProducts)
+                .ThenInclude(cp => cp.Product) // Ensure that Product is included
+                .FirstOrDefaultAsync(c => c.UserID == userId);
+
+            if (userCart == null || userCart.CartProducts == null || !userCart.CartProducts.Any())
+            {
+                return Json(new { success = false, message = "Please choose product before making an order!" });
+            }
+
+            // Nếu có sản phẩm, điều hướng người dùng đến trang thanh toán
+            return Json(new { success = true, redirectUrl = Url.Action("Index", "CheckOut") });
+        }
+
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -67,26 +86,6 @@ namespace ArtFold.Controllers
             }
 
             await _context.SaveChangesAsync();
-
-            //var cartSession = _context.Carts
-            //                .Include(c => c.CartProducts)
-            //                .ThenInclude(cp => cp.Product)
-            //                .Where(c => c.UserID == user.Id)
-            //                .Select(c => new
-            //                {
-            //                    cartID = c.CartID,
-            //                    CartProducts = c.CartProducts.Select(cp => new
-            //                    {
-            //                        cp.ProductID,
-            //                        cp.Product.Name,
-            //                        cp.ProductCartQuantity,
-            //                        cp.Product.Price
-            //                    }).ToList()
-            //                })
-            //                .FirstOrDefault();
-
-            //HttpContext.Session.SetString("Cart", Newtonsoft.Json.JsonConvert.SerializeObject(cartSession));
-
 
             return Json(new { success = true});
         }
@@ -182,6 +181,10 @@ namespace ArtFold.Controllers
 
             return Json(new { count = cartItemCount });
         }
+
+    
+       
+
     }
 
 }

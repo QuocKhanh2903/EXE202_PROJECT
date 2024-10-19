@@ -131,9 +131,13 @@
                                 <input type="hidden" name="productId" value="@Model.ProductID" />
                                 <div class="product__details__quantity">
                                     <div class="quantity">
+                                    
                                         <div class="pro-qty">
+                                        <div  class="dec qtybtn">-</div>
                                             <input type="text" id="productQuantity" name="quantity" value="0" min="1" max="@Model.ProductQuantity">
+                                        <div  class="inc qtybtn">+</div>
                                         </div>
+                                    
                                     </div>
                                 </div>
 
@@ -276,6 +280,24 @@
                 $(this).val(1);
             } else {
                 $(this).val(inputVal);
+            }
+        });
+
+        // Sự kiện cho nút giảm số lượng
+        $('.dec').on('click', function () {
+            var input = $('#productQuantity');
+            var currentVal = parseInt(input.val());
+            if (!isNaN(currentVal) && currentVal > 1) {
+                input.val(currentVal - 1);
+            }
+        });
+
+        // Sự kiện cho nút tăng số lượng
+        $('.inc').on('click', function () {
+            var input = $('#productQuantity');
+            var currentVal = parseInt(input.val());
+            if (!isNaN(currentVal) && currentVal < maxQuantity) {
+                input.val(currentVal + 1);
             }
         });
 

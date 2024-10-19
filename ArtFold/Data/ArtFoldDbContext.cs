@@ -12,7 +12,7 @@ namespace ArtFold.Data
         public DbSet<User> Users {  get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<CheckOutProduct> CheckOutProducts { get; set; }
         public DbSet<CartProduct> CartProducts { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CheckOut> CheckOuts { get; set; }
@@ -43,13 +43,28 @@ namespace ArtFold.Data
                 .HasForeignKey(cp => cp.ProductID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<OrderProduct>()
-                .HasKey(op => new { op.OrderID, op.ProductID });
+            builder.Entity<CheckOut>()
+                .HasKey(co => co.CheckOutID);
 
-            builder.Entity<OrderProduct>()
-                .HasOne(op => op.Order)
-                .WithMany(o => o.OrderProducts)
-                .HasForeignKey(op => op.OrderID)
+            builder.Entity<CheckOut>()
+                .HasOne(co => co.User)
+                .WithMany(u => u.CheckOuts) // Assuming User has a collection of CheckOuts
+                .HasForeignKey(co => co.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CheckOutProduct>()
+               .HasKey(cop => cop.CheckOutProductID);
+
+            builder.Entity<CheckOutProduct>()
+                .HasOne(cop => cop.CheckOut)
+                .WithMany(co => co.CheckOutProducts)
+                .HasForeignKey(cop => cop.CheckOutID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CheckOutProduct>()
+                .HasOne(cop => cop.Product)
+                .WithMany() // Assuming you don't need a collection in Product for CheckOutProducts
+                .HasForeignKey(cop => cop.ProductID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ProductImage>()
